@@ -27,32 +27,31 @@
 
     <!-- Login Section -->
     <div id="login-screen" class="fixed inset-0 z-[100] bg-blue-700 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xs overflow-hidden transform transition-all">
             <div class="p-8">
                 <div class="text-center mb-8">
-                    <!-- Logo Aplikasi (Halaman Login) -->
-                    <div class="inline-flex items-center justify-center w-24 h-24 bg-white rounded-full mb-4 shadow-sm border border-gray-100 p-2">
-                        <img src="https://iili.io/BsufuV4.jpg" alt="Logo Aplikasi" class="w-20 h-20 object-contain rounded-full">
+                    <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full mb-4 shadow-sm border border-gray-100 p-2">
+                        <img src="https://iili.io/BsufuV4.jpg" alt="Logo Aplikasi" class="w-16 h-16 object-contain rounded-full">
                     </div>
-                    <h2 class="text-2xl font-bold text-gray-800">MANAJEMEN BOSP</h2>
-                    <p class="text-gray-500 text-sm">SDN 37 LUBUK GAMBIR</p>
+                    <h2 class="text-xl font-bold text-gray-800">MANAJEMEN BOSP</h2>
+                    <p class="text-gray-500 text-xs">SDN 37 LUBUK GAMBIR</p>
                 </div>
                 
-                <form id="login-form" class="space-y-5">
+                <form id="login-form" class="space-y-4">
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Username</label>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1 uppercase tracking-wider">Username</label>
                         <input type="text" id="username_input" 
-                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                               class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Kata Sandi</label>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1 uppercase tracking-wider">Kata Sandi</label>
                         <input type="password" id="password_input" 
-                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                               class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm">
                     </div>
-                    <button type="submit" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 rounded-xl shadow-lg transform active:scale-95 transition-all">
-                        MASUK
+                    <button type="submit" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 rounded-xl shadow-lg transform active:scale-95 transition-all text-sm">
+                        Login
                     </button>
-                    <p class="text-[10px] text-center text-gray-400 mt-2">Sistem Manajemen BOS SDN 37 Lubuk Gambir</p>
+                    <p class="text-[9px] text-center text-gray-400 mt-2 uppercase">© Hak Cipta UPT SDN 37 Lubuk Gambir</p>
                 </form>
             </div>
         </div>
@@ -61,7 +60,6 @@
     <!-- Sidebar -->
     <aside id="main-sidebar" class="w-64 bg-blue-900 text-white flex-shrink-0 hidden flex flex-col">
         <div class="p-6 border-b border-blue-700">
-            <!-- Logo Aplikasi (Sidebar) -->
             <div class="flex items-center justify-center mb-4">
                 <div class="bg-white p-1 rounded-lg shadow-sm">
                     <img src="https://iili.io/BsufuV4.jpg" alt="Logo Nav" class="w-12 h-12 object-contain rounded-md">
@@ -90,7 +88,7 @@
             </button>
         </nav>
         <div class="p-4 bg-blue-950/50 text-[10px] text-blue-400 text-center border-t border-blue-800">
-            Sistem Manajemen BOS v2.4
+            Sistem Manajemen BOS v4.1
         </div>
     </aside>
 
@@ -107,7 +105,7 @@
             <section id="page-beranda" class="space-y-6">
                 <div class="bg-blue-600 rounded-xl p-8 text-white shadow-lg bg-gradient-to-r from-blue-700 to-blue-500">
                     <h1 class="text-3xl font-bold mb-2">Selamat Datang</h1>
-                    <p class="text-blue-100 opacity-90">Sistem Manajemen BOS SDN 37 Lubuk Gambir.</p>
+                    <p class="text-blue-100 opacity-90">Sistem Manajemen BOS SDN 37 Lubuk Gambir terhubung ke Database Cloud.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-blue-500">
@@ -122,12 +120,39 @@
             </section>
 
             <!-- Page Laporan -->
-            <section id="page-laporan" class="hidden">
-                <div class="bg-white rounded-lg shadow-xl overflow-hidden border border-gray-100">
-                    <div class="p-6 border-b flex justify-between items-center bg-gray-50">
-                        <h3 class="text-xl font-bold text-gray-800">Laporan Kuitansi</h3>
-                        <button onclick="syncDataFromCloud()" class="text-xs bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition">Update Data</button>
+            <section id="page-laporan" class="hidden space-y-4">
+                <!-- Toolbar Laporan -->
+                <div class="bg-white p-4 rounded-lg shadow-sm border flex flex-col md:flex-row gap-4 justify-between items-end md:items-center">
+                    <div class="w-full md:w-1/3">
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Filter Nomor BKU</label>
+                        <input type="text" id="bku_search" oninput="renderLaporan()" placeholder="Cari nomor BKU..." class="w-full px-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
+                    <div class="grid grid-cols-4 gap-2">
+                        <div>
+                            <label class="block text-[8px] font-bold text-gray-500 uppercase text-center">M.Atas</label>
+                            <input type="number" id="m_top" value="15" class="w-full p-1 text-center border rounded text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-[8px] font-bold text-gray-500 uppercase text-center">M.Bawah</label>
+                            <input type="number" id="m_bottom" value="15" class="w-full p-1 text-center border rounded text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-[8px] font-bold text-gray-500 uppercase text-center">M.Kiri</label>
+                            <input type="number" id="m_left" value="25" class="w-full p-1 text-center border rounded text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-[8px] font-bold text-gray-500 uppercase text-center">M.Kanan</label>
+                            <input type="number" id="m_right" value="20" class="w-full p-1 text-center border rounded text-xs">
+                        </div>
+                    </div>
+                    <div class="flex space-x-2">
+                         <a href="https://docs.google.com/spreadsheets/d/1k7d6IqRsgpMsQHxTEDhhCGGaZ8b1tJpX0ku9piYCki4/edit?usp=sharing" target="_blank" class="text-xs bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition font-bold flex items-center">Database</a>
+                         <button onclick="deleteAllKuitansi()" class="text-xs bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition font-bold">Hapus Semua</button>
+                         <button onclick="syncDataFromCloud()" class="text-xs bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition font-bold">Update Data</button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-xl overflow-hidden border border-gray-100">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">
                             <thead class="bg-blue-900 text-white">
@@ -218,7 +243,7 @@
                              <input type="number" id="pjk_daerah" placeholder="Pjk Daer" class="border p-2 rounded text-sm">
                         </div>
 
-                        <button type="button" onclick="saveKuitansi()" class="w-full bg-blue-700 text-white py-3 rounded-lg font-bold shadow-md hover:bg-blue-800 transition">SIMPAN</button>
+                        <button type="button" onclick="saveKuitansi()" class="w-full bg-blue-700 text-white py-3 rounded-lg font-bold shadow-md hover:bg-blue-800 transition">KIRIM</button>
                     </form>
                 </div>
             </section>
@@ -228,8 +253,8 @@
     <div id="toast" class="fixed bottom-10 right-10 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-2xl opacity-0 transition-opacity pointer-events-none z-[110]"></div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxxiwRQjL5Psg3T5E_syXsVDX1BjBcF9yGuqDgSw8KPjmKjjws5N_OZBXi2VIGcxrPq/exec"; 
-        const LOGIN_CONFIG = { username: "SDN37", password: "12345" };
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw5plvJ4eSxSjbIUzsDlRuf2NrseYX94wuxz8MSp_t4PdLKkCWg2O1tlysSYDxRuuw/exec"; 
+        const LOGIN_CONFIG = { username: "SDN23AJ", password: "12345" };
 
         let appData = {
             pj: { ks_nama: '', ks_nip: '', bd_nama: '', bd_nip: '' },
@@ -320,10 +345,17 @@
 
         function renderLaporan() {
             const tbody = document.getElementById('laporan-body');
+            const searchVal = document.getElementById('bku_search').value.toLowerCase();
             if(!tbody) return;
             tbody.innerHTML = '';
-            if (appData.kuitansi && appData.kuitansi.length > 0) {
-                [...appData.kuitansi].sort((a,b) => b.id - a.id).forEach(item => {
+            
+            let filtered = appData.kuitansi;
+            if(searchVal) {
+                filtered = appData.kuitansi.filter(k => (k.bku || '').toLowerCase().includes(searchVal));
+            }
+
+            if (filtered && filtered.length > 0) {
+                [...filtered].sort((a,b) => b.id - a.id).forEach(item => {
                     const tr = document.createElement('tr');
                     tr.className = "hover:bg-gray-50 transition";
                     
@@ -337,15 +369,16 @@
                         <td class="px-6 py-4 text-sm">${tglTampil}</td>
                         <td class="px-6 py-4 text-sm">${item.penerima || '-'}</td>
                         <td class="px-6 py-4 font-bold">Rp ${Number(item.jumlah || 0).toLocaleString('id-ID')}</td>
-                        <td class="px-6 py-4 text-center space-x-1">
-                            <button onclick="downloadPDF(${item.id})" class="bg-green-600 text-white px-2 py-1 rounded text-[10px] uppercase font-bold hover:bg-green-700">PDF</button>
+                        <td class="px-6 py-4 text-center space-x-1 whitespace-nowrap">
+                            <button onclick="handlePDF(${item.id}, 'view')" class="bg-blue-600 text-white px-2 py-1 rounded text-[10px] uppercase font-bold hover:bg-blue-700">Lihat</button>
+                            <button onclick="handlePDF(${item.id}, 'download')" class="bg-green-600 text-white px-2 py-1 rounded text-[10px] uppercase font-bold hover:bg-green-700">PDF</button>
                             <button onclick="deleteKuitansi(${item.id})" class="bg-red-500 text-white px-2 py-1 rounded text-[10px] uppercase font-bold hover:bg-red-600">Hapus</button>
                         </td>
                     `;
                     tbody.appendChild(tr);
                 });
             } else {
-                tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-10 text-center text-gray-400 italic">Belum Ada Data</td></tr>';
+                tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-10 text-center text-gray-400 italic">${searchVal ? 'BKU tidak ditemukan' : 'Database Cloud Kosong'}</td></tr>`;
             }
         }
 
@@ -400,6 +433,14 @@
             if(confirm('Hapus data ini secara permanen?')) await callCloud('deleteKuitansi', { id });
         }
 
+        async function deleteAllKuitansi() {
+            if(confirm('PERINGATAN: Apakah Anda yakin ingin menghapus SELURUH data kuitansi di cloud?')) {
+                if(confirm('Tindakan ini tidak bisa dibatalkan. Hapus semua data sekarang?')) {
+                    await callCloud('deleteAllKuitansi', {});
+                }
+            }
+        }
+
         function updateStats() {
             document.getElementById('stat-total').innerText = appData.kuitansi.length;
             const sum = appData.kuitansi.reduce((a, c) => a + Number(c.jumlah || 0), 0);
@@ -425,21 +466,15 @@
                 document.getElementById('terbilang').value = "";
                 return;
             }
-            // Bersihkan output dari spasi berlebih dan buat huruf pertama kapital
             let hasil = (angkaKeTerbilang(num) + " Rupiah").trim();
-            hasil = hasil.replace(/\s+/g, ' '); // Hapus spasi ganda
+            hasil = hasil.replace(/\s+/g, ' '); 
             document.getElementById('terbilang').value = hasil;
         }
 
-        /**
-         * Perbaikan Fungsi Terbilang (Unlimited)
-         * Mendukung Juta, Miliar, Triliun
-         */
         function angkaKeTerbilang(nilai) {
             nilai = Math.floor(Math.abs(nilai));
             const huruf = ["", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas"];
             let temp = "";
-            
             if (nilai < 12) {
                 temp = " " + huruf[nilai];
             } else if (nilai < 20) {
@@ -480,59 +515,107 @@
             return new Promise((resolve, reject) => {
                 const img = new Image();
                 img.crossOrigin = 'Anonymous';
-                img.onload = () => resolve(img);
-                img.onerror = reject;
+                const timer = setTimeout(() => {
+                    img.src = "";
+                    reject(new Error("Gagal memuat: " + url));
+                }, 10000); 
+                img.onload = () => { clearTimeout(timer); resolve(img); };
+                img.onerror = () => { clearTimeout(timer); reject(new Error("Gagal: " + url)); };
                 img.src = url;
             });
         }
 
-        async function downloadPDF(id) {
+        /**
+         * Fungsi Terpadu untuk Lihat atau Download PDF
+         */
+        async function handlePDF(id, mode = 'download') {
             showLoading(true);
             try {
                 const data = appData.kuitansi.find(k => k.id == id);
-                const pj = appData.pj;
-                if(!data) return;
+                const pj = appData.pj || {};
+                if(!data) throw new Error("Data kuitansi tidak ditemukan.");
+                
+                // Ambil Nilai Margin dari Input
+                const mTop = parseFloat(document.getElementById('m_top').value) || 15;
+                const mBottom = parseFloat(document.getElementById('m_bottom').value) || 15;
+                const mLeft = parseFloat(document.getElementById('m_left').value) || 25;
+                const mRight = parseFloat(document.getElementById('m_right').value) || 20;
+
                 const { jsPDF } = window.jspdf;
-                const doc = new jsPDF('p', 'mm', [215.9, 355.6]);
+                const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: [215.9, 355.6] });
+                
+                // URL Assets
                 const logoLeftUrl = "https://iili.io/3QUsMEx.png"; 
-                const logoRightUrl = "https://iili.io/feuGkfp.png"; 
-                try {
-                    const [imgLeft, imgRight] = await Promise.all([
-                        getImageFromUrl(logoLeftUrl),
-                        getImageFromUrl(logoRightUrl)
-                    ]);
-                    doc.addImage(imgLeft, 'PNG', 20, 15, 22, 22);
-                    doc.addImage(imgRight, 'PNG', 174, 15, 22, 22);
-                } catch (e) {
-                    console.warn("Logo Gagal Dimuat", e);
+                const logoRightUrl = "https://iili.io/fty6XYg.jpg"; 
+                const watermarkUrl = "https://iili.io/BsMgKKP.jpg";
+
+                let imgLeft = null, imgRight = null, imgWatermark = null;
+                
+                try { imgLeft = await getImageFromUrl(logoLeftUrl); } catch(e) { console.warn("Logo Kiri gagal"); }
+                try { imgRight = await getImageFromUrl(logoRightUrl); } catch(e) { console.warn("Logo Kanan gagal"); }
+                try { imgWatermark = await getImageFromUrl(watermarkUrl); } catch(e) { console.warn("Watermark gagal"); }
+
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.getHeight();
+                const centerX = pageWidth / 2;
+
+                // --- 1. RENDER WATERMARK (Layer Paling Belakang) ---
+                if (imgWatermark) {
+                    try {
+                        doc.saveGraphicsState();
+                        // Menggunakan GState untuk transparansi latar belakang yang stabil
+                        const gState = new doc.GState({opacity: 0.15});
+                        doc.setGState(gState);
+                        
+                        const wSize = 135; // Ukuran watermark
+                        const wX = (pageWidth - wSize) / 2;
+                        const wY = (pageHeight - wSize) / 2;
+                        
+                        doc.addImage(imgWatermark, 'JPEG', wX, wY, wSize, wSize, undefined, 'FAST');
+                        doc.restoreGraphicsState();
+                    } catch (e) { console.error("Gagal render watermark:", e); }
                 }
-                doc.setFont('times');
-                doc.setFontSize(14).setFont('times', 'bold').text('PEMERINTAH KABUPATEN PESISIR SELATAN', 108, 18, { align: 'center' });
-                doc.text('DINAS PENDIDIKAN', 108, 24, { align: 'center' });
-                doc.setFontSize(15).text('UPT SDN 37 LUBUK GAMBIR', 108, 30, { align: 'center' });
-                doc.text('KECAMATAN BAYANG', 108, 36, { align: 'center' });
+
+                // --- 2. RENDER LOGO KOP (Kiri & Kanan) ---
+                if (imgLeft) doc.addImage(imgLeft, 'PNG', mLeft - 5, mTop, 22, 22);
+                if (imgRight) doc.addImage(imgRight, 'JPEG', pageWidth - mRight - 17, mTop, 22, 22);
+
+                // --- HEADER KOP TEKS ---
+                doc.setFont('times', 'bold');
+                doc.setFontSize(14).text('PEMERINTAH KABUPATEN PESISIR SELATAN', centerX, mTop + 3, { align: 'center' });
+                doc.text('DINAS PENDIDIKAN', centerX, mTop + 9, { align: 'center' });
+                doc.setFontSize(15).text('UPT SDN 37 LUBUK GAMBIR', centerX, mTop + 15, { align: 'center' });
+                doc.text('KECAMATAN BAYANG', centerX, mTop + 21, { align: 'center' });
+                
                 doc.setTextColor(0, 0, 255); 
                 doc.setFontSize(10).setFont('times', 'italic');
-                doc.text('Jalan : Pasar Baru - Asam Kumbang, Email : lubukgambirs@gmail.com , Kode Pos : 25652', 108, 41, { align: 'center' });
+                doc.text('Jalan Pasar Baru - Asam Kumbang, Email : lubukgambirs@gmail.com , Kode Pos : 25652', centerX, mTop + 26, { align: 'center' });
+                
                 doc.setTextColor(0, 0, 0);
-                doc.setLineWidth(0.8).line(20, 44, 196, 44);
-                doc.setLineWidth(0.2).line(20, 45, 196, 45);
-                doc.setFontSize(14).setFont('times', 'bold').text('KUITANSI', 108, 55, { align: 'center' });
-                let y = 65;
+                doc.setLineWidth(0.8).line(mLeft - 5, mTop + 29, pageWidth - mRight + 5, mTop + 29);
+                doc.setLineWidth(0.2).line(mLeft - 5, mTop + 30, pageWidth - mRight + 5, mTop + 30);
+
+                doc.setFontSize(14).setFont('times', 'bold').text('KUITANSI', centerX, mTop + 40, { align: 'center' });
+                
+                // --- KONTEN UTAMA ---
+                let y = mTop + 50;
                 doc.setFontSize(12).setFont('times', 'normal');
-                const labelX = 25;
-                const valueX = 65;
+                const labelX = mLeft;
+                const valueX = mLeft + 40;
+                
                 doc.text('Nomor BKU', labelX, y); doc.text(': ' + (data.bku || '-'), valueX, y); y += 8;
                 doc.text('Kode Rekening', labelX, y); doc.text(': ' + (data.rek || '-'), valueX, y); y += 8;
                 doc.text('Sudah Terima Dari', labelX, y); doc.text(': ' + (data.pemberi || 'Bendahara BOS'), valueX, y); y += 8;
                 doc.text('Uang Sejumlah', labelX, y); 
-                doc.setFont('times', 'bold').text(': Rp ' + Number(data.jumlah).toLocaleString('id-ID'), valueX, y); y += 8;
+                doc.setFont('times', 'bold').text(': Rp ' + Number(data.jumlah || 0).toLocaleString('id-ID'), valueX, y); y += 8;
+                
                 doc.setFont('times', 'italic').text('Terbilang', labelX, y);
-                const terbilangLines = doc.splitTextToSize(': ' + (data.terbilang || '-'), 130);
+                const terbilangLines = doc.splitTextToSize(': ' + (data.terbilang || '-'), pageWidth - mRight - valueX);
                 doc.text(terbilangLines, valueX, y);
                 y += (terbilangLines.length * 6) + 2;
+
                 doc.setFont('times', 'normal').text('Untuk Pembayaran', labelX, y);
-                const untukLines = doc.splitTextToSize(': ' + (data.untuk || '-'), 130);
+                const untukLines = doc.splitTextToSize(': ' + (data.untuk || '-'), pageWidth - mRight - valueX);
                 doc.text(untukLines, valueX, y);
                 y += (untukLines.length * 6) + 10;
                 
@@ -541,84 +624,84 @@
                 
                 const formatRp = (val) => (parseFloat(val) || 0).toLocaleString('id-ID');
                 
-                doc.autoTable({
-                    startY: y,
-                    margin: { left: labelX, right: 20 },
-                    tableWidth: 171,
-                    styles: { 
-                        font: 'times', 
-                        fontSize: 10, 
-                        cellPadding: 2, 
-                        lineWidth: 0.1, 
-                        lineColor: [0, 0, 0],
-                        textColor: [0, 0, 0]
-                    },
-                    headStyles: { 
-                        fillColor: [240, 240, 240], 
-                        fontStyle: 'bold',
-                        textColor: [0, 0, 0],
-                        halign: 'center'
-                    },
-                    columnStyles: {
-                        0: { halign: 'left', fontStyle: 'bold' },
-                        1: { halign: 'right' }
-                    },
-                    head: [['Jenis Pajak', 'Jumlah (Rp)']],
-                    body: [
-                        ['DPP', formatRp(data.dpp)],
-                        ['PPN', formatRp(data.ppn)],
-                        ['PPh 21', formatRp(data.pph21)],
-                        ['PPh 23', formatRp(data.pph23)],
-                        ['Pajak Daerah', formatRp(data.pjk_daerah)]
-                    ],
-                    theme: 'grid'
-                });
-
-                y = doc.lastAutoTable.finalY + 15;
+                if (doc.autoTable) {
+                    doc.autoTable({
+                        startY: y,
+                        margin: { left: mLeft, right: mRight },
+                        tableWidth: pageWidth - mLeft - mRight,
+                        styles: { font: 'times', fontSize: 10, cellPadding: 2, lineWidth: 0.1, lineColor: [0, 0, 0], textColor: [0, 0, 0] },
+                        headStyles: { fillColor: [240, 240, 240], fontStyle: 'bold', textColor: [0, 0, 0], halign: 'center' },
+                        columnStyles: { 0: { halign: 'left', fontStyle: 'bold' }, 1: { halign: 'right' } },
+                        head: [['Jenis Pajak', 'Jumlah (Rp)']],
+                        body: [
+                            ['DPP', formatRp(data.dpp)], ['PPN', formatRp(data.ppn)],
+                            ['PPh 21', formatRp(data.pph21)], ['PPh 23', formatRp(data.pph23)],
+                            ['Pajak Daerah', formatRp(data.pjk_daerah)]
+                        ],
+                        theme: 'grid'
+                    });
+                    y = doc.lastAutoTable.finalY + 15;
+                }
                 
-                const colLeft = 25;   
-                const colRight = 135; 
+                const colRightPos = pageWidth - mRight - 60; 
                 doc.setFontSize(11);
+                
                 let rawDate = (data.tanggalFormat || data.tanggal || "");
                 if(rawDate.startsWith("'")) rawDate = rawDate.substring(1);
                 const tglBersih = formatDateIndo(rawDate);
                 
-                doc.text('Lubuk Gambir, ' + tglBersih, colRight, y);
+                doc.setFont('times', 'normal'); 
+                doc.text('Lubuk Gambir, ' + tglBersih, colRightPos, y);
                 y += 5;
-                doc.text('Yang Menerima,', colRight, y);
+                doc.text('Yang Menerima,', colRightPos, y);
                 y += 20;
-                doc.setFont('times', 'bold').text(data.penerima || '..............................', colRight, y);
+                doc.setFont('times', 'bold').text(data.penerima || '..............................', colRightPos, y);
                 y += 15; 
                 
-                doc.setFont('times', 'normal').text('Setuju Dibayar,', colLeft, y);
-                doc.setFont('times', 'bold').text('Lunas Bayar,', colRight, y);
+                doc.setFont('times', 'normal').text('Setuju Dibayar,', mLeft, y);
+                doc.text('Lunas Bayar,', colRightPos, y);
                 
                 y += 5;
-                doc.setFont('times', 'normal').text('Kepala Sekolah,', colLeft, y);
-                doc.text('Bendahara BOS,', colRight, y);
+                doc.setFont('times', 'normal').text('Kepala Sekolah,', mLeft, y);
+                doc.text('Bendahara BOS,', colRightPos, y);
                 y += 20; 
-                doc.setFont('times', 'bold').text(pj.ks_nama || '..............................', colLeft, y);
-                doc.text(pj.bd_nama || '..............................', colRight, y);
+                
+                doc.setFont('times', 'bold').text(pj.ks_nama || '..............................', mLeft, y);
+                doc.text(pj.bd_nama || '..............................', colRightPos, y);
+                
                 y += 5;
                 doc.setFont('times', 'normal');
-                doc.text('NIP. ' + (pj.ks_nip || '..............................'), colLeft, y);
-                doc.text('NIP. ' + (pj.bd_nip || '..............................'), colRight, y);
-                const footerY = 345; 
-                doc.setFontSize(8);
-                doc.setFont('times', 'italic');
-                doc.setTextColor(150, 150, 150); 
-                doc.text(`NOMOR BKU: ${data.bku || 'N/A'}`, 20, footerY);
+                doc.text('NIP. ' + (pj.ks_nip || '..............................'), mLeft, y);
+                doc.text('NIP. ' + (pj.bd_nip || '..............................'), colRightPos, y);
+                
+                const footerY = pageHeight - mBottom; 
+                doc.setFontSize(8).setFont('times', 'italic').setTextColor(150, 150, 150); 
+                doc.text(`NOMOR BKU: ${data.bku || '-'}`, mLeft, footerY);
+                
                 const now = new Date();
                 const printTime = `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth()+1).toString().padStart(2, '0')}/${now.getFullYear()} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-                doc.text(`Dicetak melalui Sistem Manajemen BOS SDN 37 Lubuk Gambir pada: ${printTime} WIB`, 196, footerY, { align: 'right' });
-                doc.save(`Kuitansi_${data.bku}_${data.penerima}.pdf`);
+                doc.text(`Dicetak melalui Sistem Manajemen BOS SDN 37 Lubuk Gambir pada: ${printTime} WIB`, pageWidth - mRight, footerY, { align: 'right' });
+                
+                if (mode === 'download') {
+                    const safeName = (data.penerima || "Kuitansi").replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                    doc.save(`kuitansi_${data.bku || 'bku'}_${safeName}.pdf`);
+                    showToast("PDF Berhasil diunduh.");
+                } else {
+                    const pdfBlob = doc.output('bloburl');
+                    window.open(pdfBlob, '_blank');
+                    showToast("Pratinjau dibuka di tab baru.");
+                }
             } catch (err) {
-                console.error(err);
-                showToast("Gagal mengunduh PDF");
+                console.error("PDF Render Error:", err);
+                showToast("Gagal memproses PDF.");
             } finally {
                 showLoading(false);
             }
         }
+
+        window.downloadPDF = (id) => handlePDF(id, 'download');
+        window.viewPDF = (id) => handlePDF(id, 'view');
+
     </script>
 </body>
 </html>
