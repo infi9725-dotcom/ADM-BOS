@@ -34,8 +34,8 @@
                     <div class="inline-flex items-center justify-center w-24 h-24 bg-white rounded-full mb-4 shadow-sm border border-gray-100 p-2">
                         <img src="https://iili.io/BsufuV4.jpg" alt="Logo Aplikasi" class="w-20 h-20 object-contain rounded-full">
                     </div>
-                    <h2 class="text-2xl font-bold text-gray-800">LOGIN</h2>
-                    <p class="text-gray-500 text-sm">UPT SDN 37 LUBUK GAMBIR</p>
+                    <h2 class="text-2xl font-bold text-gray-800">MANAJEMEN BOSP</h2>
+                    <p class="text-gray-500 text-sm">SDN 37 LUBUK GAMBIR</p>
                 </div>
                 
                 <form id="login-form" class="space-y-5">
@@ -50,9 +50,9 @@
                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
                     </div>
                     <button type="submit" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 rounded-xl shadow-lg transform active:scale-95 transition-all">
-                        Masuk
+                        MASUK
                     </button>
-                    <p class="text-[10px] text-center text-gray-400 mt-2">Sistem Manajemen BOS SDN 37 Lubuk Gambirv2.3</p>
+                    <p class="text-[10px] text-center text-gray-400 mt-2">Sistem Manajemen BOS SDN 37 Lubuk Gambir</p>
                 </form>
             </div>
         </div>
@@ -90,7 +90,7 @@
             </button>
         </nav>
         <div class="p-4 bg-blue-950/50 text-[10px] text-blue-400 text-center border-t border-blue-800">
-            Sistem Manajemen BOS v2.3
+            Sistem Manajemen BOS v2.4
         </div>
     </aside>
 
@@ -169,7 +169,7 @@
                                 <input type="text" id="bd_nip" class="mt-1 block w-full border rounded-lg p-3 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all">
                             </div>
                         </div>
-                        <button type="button" onclick="savePJ()" class="w-full bg-blue-700 text-white py-3 rounded-xl font-bold hover:bg-blue-800 shadow-lg transform active:scale-95 transition-all mt-4">Simpan</button>
+                        <button type="button" onclick="savePJ()" class="w-full bg-blue-700 text-white py-3 rounded-xl font-bold hover:bg-blue-800 shadow-lg transform active:scale-95 transition-all mt-4">SIMPAN</button>
                     </form>
                 </div>
             </section>
@@ -218,7 +218,7 @@
                              <input type="number" id="pjk_daerah" placeholder="Pjk Daer" class="border p-2 rounded text-sm">
                         </div>
 
-                        <button type="button" onclick="saveKuitansi()" class="w-full bg-blue-700 text-white py-3 rounded-lg font-bold shadow-md hover:bg-blue-800 transition">Kirim</button>
+                        <button type="button" onclick="saveKuitansi()" class="w-full bg-blue-700 text-white py-3 rounded-lg font-bold shadow-md hover:bg-blue-800 transition">SIMPAN</button>
                     </form>
                 </div>
             </section>
@@ -345,7 +345,7 @@
                     tbody.appendChild(tr);
                 });
             } else {
-                tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-10 text-center text-gray-400 italic">Database Kosong</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-10 text-center text-gray-400 italic">Belum Ada Data</td></tr>';
             }
         }
 
@@ -421,20 +421,46 @@
 
         function updateTerbilang() {
             const num = document.getElementById('jumlah_rp').value;
-            document.getElementById('terbilang').value = num ? (angkaKeTerbilang(num) + " Rupiah") : "";
+            if(!num) {
+                document.getElementById('terbilang').value = "";
+                return;
+            }
+            // Bersihkan output dari spasi berlebih dan buat huruf pertama kapital
+            let hasil = (angkaKeTerbilang(num) + " Rupiah").trim();
+            hasil = hasil.replace(/\s+/g, ' '); // Hapus spasi ganda
+            document.getElementById('terbilang').value = hasil;
         }
 
+        /**
+         * Perbaikan Fungsi Terbilang (Unlimited)
+         * Mendukung Juta, Miliar, Triliun
+         */
         function angkaKeTerbilang(nilai) {
-            nilai = Math.abs(nilai);
+            nilai = Math.floor(Math.abs(nilai));
             const huruf = ["", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas"];
             let temp = "";
-            if (nilai < 12) temp = " " + huruf[nilai];
-            else if (nilai < 20) temp = angkaKeTerbilang(nilai - 10) + " Belas";
-            else if (nilai < 100) temp = angkaKeTerbilang(Math.floor(nilai / 10)) + " Puluh" + angkaKeTerbilang(nilai % 10);
-            else if (nilai < 200) temp = " Seratus" + angkaKeTerbilang(nilai - 100);
-            else if (nilai < 1000) temp = angkaKeTerbilang(Math.floor(nilai / 100)) + " Ratus" + angkaKeTerbilang(nilai % 100);
-            else if (nilai < 2000) temp = " Seribu" + angkaKeTerbilang(nilai - 1000);
-            else if (nilai < 1000000) temp = angkaKeTerbilang(Math.floor(nilai / 1000)) + " Ribu" + angkaKeTerbilang(nilai % 1000);
+            
+            if (nilai < 12) {
+                temp = " " + huruf[nilai];
+            } else if (nilai < 20) {
+                temp = angkaKeTerbilang(nilai - 10) + " Belas";
+            } else if (nilai < 100) {
+                temp = angkaKeTerbilang(Math.floor(nilai / 10)) + " Puluh" + angkaKeTerbilang(nilai % 10);
+            } else if (nilai < 200) {
+                temp = " Seratus" + angkaKeTerbilang(nilai - 100);
+            } else if (nilai < 1000) {
+                temp = angkaKeTerbilang(Math.floor(nilai / 100)) + " Ratus" + angkaKeTerbilang(nilai % 100);
+            } else if (nilai < 2000) {
+                temp = " Seribu" + angkaKeTerbilang(nilai - 1000);
+            } else if (nilai < 1000000) {
+                temp = angkaKeTerbilang(Math.floor(nilai / 1000)) + " Ribu" + angkaKeTerbilang(nilai % 1000);
+            } else if (nilai < 1000000000) {
+                temp = angkaKeTerbilang(Math.floor(nilai / 1000000)) + " Juta" + angkaKeTerbilang(nilai % 1000000);
+            } else if (nilai < 1000000000000) {
+                temp = angkaKeTerbilang(Math.floor(nilai / 1000000000)) + " Miliar" + angkaKeTerbilang(nilai % 1000000000);
+            } else if (nilai < 1000000000000000) {
+                temp = angkaKeTerbilang(Math.floor(nilai / 1000000000000)) + " Triliun" + angkaKeTerbilang(nilai % 1000000000000);
+            }
             return temp;
         }
 
@@ -487,7 +513,7 @@
                 doc.text('KECAMATAN BAYANG', 108, 36, { align: 'center' });
                 doc.setTextColor(0, 0, 255); 
                 doc.setFontSize(10).setFont('times', 'italic');
-                doc.text('Jalan : Pasar Baru - Asam Kumbang, Email : lubukgambirs@gmail.com, Kode Pos : 25652 ', 108, 41, { align: 'center' });
+                doc.text('Jalan : Pasar Baru - Asam Kumbang, Email : lubukgambirs@gmail.com , Kode Pos : 25652', 108, 41, { align: 'center' });
                 doc.setTextColor(0, 0, 0);
                 doc.setLineWidth(0.8).line(20, 44, 196, 44);
                 doc.setLineWidth(0.2).line(20, 45, 196, 45);
@@ -510,7 +536,6 @@
                 doc.text(untukLines, valueX, y);
                 y += (untukLines.length * 6) + 10;
                 
-                // TABEL RINCIAN PAJAK URUT KE BAWAH (DIPERLEBAR)
                 doc.setFont('times', 'bold').text('Rincian Pajak:', labelX, y);
                 y += 4;
                 
@@ -582,7 +607,7 @@
                 doc.setFontSize(8);
                 doc.setFont('times', 'italic');
                 doc.setTextColor(150, 150, 150); 
-                doc.text(`NO.BKU: ${data.bku || 'N/A'}`, 20, footerY);
+                doc.text(`NOMOR BKU: ${data.bku || 'N/A'}`, 20, footerY);
                 const now = new Date();
                 const printTime = `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth()+1).toString().padStart(2, '0')}/${now.getFullYear()} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
                 doc.text(`Dicetak melalui Sistem Manajemen BOS SDN 37 Lubuk Gambir pada: ${printTime} WIB`, 196, footerY, { align: 'right' });
