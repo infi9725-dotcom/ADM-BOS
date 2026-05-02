@@ -49,9 +49,9 @@
                                class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm">
                     </div>
                     <button type="submit" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 rounded-xl shadow-lg transform active:scale-95 transition-all text-sm">
-                        Login
+                        LOGIN
                     </button>
-                    <p class="text-[9px] text-center text-gray-400 mt-2 uppercase">© Hak Cipta UPT SDN 37 Lubuk Gambir</p>
+                    <p class="text-[9px] text-center text-gray-400 mt-2 uppercase">v4.3 - SDN 37 Lubuk Gambir</p>
                 </form>
             </div>
         </div>
@@ -88,7 +88,7 @@
             </button>
         </nav>
         <div class="p-4 bg-blue-950/50 text-[10px] text-blue-400 text-center border-t border-blue-800">
-            Sistem Manajemen BOS v4.1
+            Sistem Manajemen BOS v4.3
         </div>
     </aside>
 
@@ -563,11 +563,10 @@
                 if (imgWatermark) {
                     try {
                         doc.saveGraphicsState();
-                        // Menggunakan GState untuk transparansi latar belakang yang stabil
                         const gState = new doc.GState({opacity: 0.15});
                         doc.setGState(gState);
                         
-                        const wSize = 135; // Ukuran watermark
+                        const wSize = 135; 
                         const wX = (pageWidth - wSize) / 2;
                         const wY = (pageHeight - wSize) / 2;
                         
@@ -600,12 +599,25 @@
                 // --- KONTEN UTAMA ---
                 let y = mTop + 50;
                 doc.setFontSize(12).setFont('times', 'normal');
+                
+                // --- POSISI KANAN UNTUK BKU & REKENING ---
+                const rightAlignLabelX = pageWidth - mRight - 60;
+                const rightAlignValueX = pageWidth - mRight - 32;
+
+                doc.text('Nomor BKU', rightAlignLabelX, y); doc.text(': ' + (data.bku || '-'), rightAlignValueX, y); y += 8;
+                doc.text('Kode Rekening', rightAlignLabelX, y); doc.text(': ' + (data.rek || '-'), rightAlignValueX, y); y += 8;
+                
+                // Reset Y untuk data sebelah kiri agar sejajar
+                y = mTop + 50;
                 const labelX = mLeft;
                 const valueX = mLeft + 40;
                 
-                doc.text('Nomor BKU', labelX, y); doc.text(': ' + (data.bku || '-'), valueX, y); y += 8;
-                doc.text('Kode Rekening', labelX, y); doc.text(': ' + (data.rek || '-'), valueX, y); y += 8;
-                doc.text('Sudah Terima Dari', labelX, y); doc.text(': ' + (data.pemberi || 'Bendahara BOS'), valueX, y); y += 8;
+                // Lewati Y agar tidak menimpa BKU & Rekening jika data kiri terlalu banyak (opsional)
+                // Namun untuk kuitansi standar, BKU & Rek di kanan atas biasanya hanya 2 baris.
+                
+                doc.text('Sudah Terima Dari', labelX, y + 16); doc.text(': ' + (data.pemberi || 'Bendahara BOS'), valueX, y + 16); 
+                y += 24;
+
                 doc.text('Uang Sejumlah', labelX, y); 
                 doc.setFont('times', 'bold').text(': Rp ' + Number(data.jumlah || 0).toLocaleString('id-ID'), valueX, y); y += 8;
                 
@@ -619,29 +631,26 @@
                 doc.text(untukLines, valueX, y);
                 y += (untukLines.length * 6) + 10;
                 
+                // --- RINCIAN PAJAK ---
                 doc.setFont('times', 'bold').text('Rincian Pajak:', labelX, y);
-                y += 4;
+                y += 6;
+                doc.setFont('times', 'normal').setFontSize(11);
                 
                 const formatRp = (val) => (parseFloat(val) || 0).toLocaleString('id-ID');
-                
-                if (doc.autoTable) {
-                    doc.autoTable({
-                        startY: y,
-                        margin: { left: mLeft, right: mRight },
-                        tableWidth: pageWidth - mLeft - mRight,
-                        styles: { font: 'times', fontSize: 10, cellPadding: 2, lineWidth: 0.1, lineColor: [0, 0, 0], textColor: [0, 0, 0] },
-                        headStyles: { fillColor: [240, 240, 240], fontStyle: 'bold', textColor: [0, 0, 0], halign: 'center' },
-                        columnStyles: { 0: { halign: 'left', fontStyle: 'bold' }, 1: { halign: 'right' } },
-                        head: [['Jenis Pajak', 'Jumlah (Rp)']],
-                        body: [
-                            ['DPP', formatRp(data.dpp)], ['PPN', formatRp(data.ppn)],
-                            ['PPh 21', formatRp(data.pph21)], ['PPh 23', formatRp(data.pph23)],
-                            ['Pajak Daerah', formatRp(data.pjk_daerah)]
-                        ],
-                        theme: 'grid'
-                    });
-                    y = doc.lastAutoTable.finalY + 15;
-                }
+                const taxItems = [
+                    { label: 'DPP', value: data.dpp },
+                    { label: 'PPN', value: data.ppn },
+                    { label: 'PPh 21', value: data.pph21 },
+                    { label: 'PPh 23', value: data.pph23 },
+                    { label: 'Pajak Daerah', value: data.pjk_daerah }
+                ];
+
+                taxItems.forEach(item => {
+                    doc.text(item.label, labelX + 5, y);
+                    doc.text(': Rp ' + formatRp(item.value), labelX + 35, y);
+                    y += 6;
+                });
+                y += 5;
                 
                 const colRightPos = pageWidth - mRight - 60; 
                 doc.setFontSize(11);
