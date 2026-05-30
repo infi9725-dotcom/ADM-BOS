@@ -2,10 +2,18 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SDN 37 LUBUK GAMBIR</title>
+    
+    <!-- Meta tag untuk kemampuan PWA & Standalone Web App (Layar Penuh di Perangkat Seluler) -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="BOS SDN 37">
+    <meta name="theme-color" content="#1e3a8a">
+    
     <!-- Favicon Link -->
-    <link rel="icon" type="image/jpeg" href="https://iili.io/BsufuV4.jpg">
+    <link class="rounded-full" rel="icon" type="image/jpeg" href="https://iili.io/BsufuV4.jpg">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
@@ -22,7 +30,73 @@
     <!-- Loading Overlay -->
     <div id="loading-overlay" class="fixed inset-0 z-[200] bg-white/80 flex flex-col items-center justify-center hidden">
         <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
-        <p class="text-blue-900 font-semibold animate-pulse">SINGKRONISASI</p>
+        <p id="loading-text" class="text-blue-900 font-semibold animate-pulse">Memproses Kuitansi...</p>
+    </div>
+
+    <!-- Informasi Pembaruan (Update Info Modal) -->
+    <div id="update-info-modal" class="fixed inset-0 z-[150] bg-black/60 flex items-center justify-center p-4 hidden">
+         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden relative transform transition-all duration-300 p-6 space-y-4">
+             <!-- Tombol X untuk Menghilangkan Informasi -->
+             <button onclick="closeUpdateModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition text-2xl font-semibold leading-none">&times;</button>
+             
+             <div class="flex items-center space-x-3 border-b pb-3">
+                 <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xl font-bold">📢</div>
+                 <div>
+                     <h4 class="text-base font-bold text-gray-900">Pembaruan Sistem</h4>
+                     <p class="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">SDN 37 Lubuk Gambir</p>
+                 </div>
+             </div>
+             
+             <p class="text-xs text-gray-600 leading-relaxed">
+                 Halo! SDN 37 Lubuk Gambir Kami terus mengembangkan sistem untuk memberikan pengalaman pengelolaan kuitansi yang lebih cepat, efisien, dan andal,dan ini Daftar Pembaruan Aplikasi:
+             </p>
+             
+             <div class="space-y-3">
+                 <!-- Poin Pembaruan 1 -->
+                 <div class="bg-blue-50/60 p-3 rounded-xl border border-blue-100 flex gap-3">
+                     <span class="text-lg">📥</span>
+                     <div>
+                         <h5 class="text-xs font-bold text-blue-900">Download Semua PDF</h5>
+                         <p class="text-[10.5px] text-gray-600 mt-0.5 leading-normal">Unduh seluruh berkas kuitansi aktif sekaligus ke dalam satu dokumen PDF multi-halaman secara cepat.</p>
+                     </div>
+                 </div>
+                 <!-- Poin Pembaruan 2 -->
+                 <div class="bg-yellow-50/60 p-3 rounded-xl border border-yellow-100 flex gap-3">
+                     <span class="text-lg">🗄️</span>
+                     <div>
+                         <h5 class="text-xs font-bold text-yellow-900">Pindahkan Ke Arsip</h5>
+                         <p class="text-[10.5px] text-gray-600 mt-0.5 leading-normal">Kelola transisi tahun anggaran baru dengan mudah. Arsipkan data lama secara otomatis dengan penyaring tahun.</p>
+                     </div>
+                </div>
+                 <!-- Poin Pembaruan 3 -->
+                 <div class="bg-Red-50/60 p-3 rounded-xl border border-yellow-100 flex gap-3">
+                     <span class="text-lg">🗄️</span>
+                     <div>
+                         <h5 class="text-xs font-bold text-yellow-900">Layar Penuh</h5>
+                         <p class="text-[10.5px] text-gray-600 mt-0.5 leading-normal">Kamu Bisa Mengklik Layar Penuh Kanan Atas, Supaya Bisa  menampilkan konten agar mengisi seluruh area layar.</p>
+                     </div>
+                 </div>
+             </div>
+             
+             <button onclick="closeUpdateModal()" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2.5 rounded-xl text-xs transition active:scale-95 shadow-md">
+                 Selesai & Lanjutkan
+             </button>
+         </div>
+    </div>
+
+    <!-- Custom Confirmation & Alert Modal -->
+    <div id="custom-confirm-modal" class="fixed inset-0 z-[300] bg-black/60 flex items-center justify-center p-4 hidden">
+         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden p-6 space-y-4 transform transition-all duration-300">
+             <div class="flex items-center space-x-3">
+                 <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xl font-bold" id="confirm-icon">ℹ️</div>
+                 <h4 id="confirm-title" class="text-lg font-bold text-gray-900">Konfirmasi</h4>
+             </div>
+             <p id="confirm-message" class="text-sm text-gray-600 leading-relaxed">Apakah Anda yakin ingin melanjutkan tindakan ini?</p>
+             <div class="flex justify-end space-x-3 pt-2">
+                 <button id="confirm-cancel" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl text-sm font-medium transition active:scale-95">Batal</button>
+                 <button id="confirm-ok" class="px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-xl text-sm font-bold transition active:scale-95">Ya, Lanjutkan</button>
+             </div>
+         </div>
     </div>
 
     <!-- Login Section -->
@@ -34,7 +108,7 @@
                         <img src="https://iili.io/BsufuV4.jpg" alt="Logo Aplikasi" class="w-16 h-16 object-contain rounded-full">
                     </div>
                     <h2 class="text-xl font-bold text-gray-800">MANAJEMEN BOSP</h2>
-                    <p class="text-gray-500 text-xs">SDN 37 LUBUK GAMBIR</p>
+                    <p class="text-gray-500 text-xs">SDN 37 Lubuk Gambir</p>
                 </div>
                 
                 <form id="login-form" class="space-y-4">
@@ -49,7 +123,7 @@
                                class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm">
                     </div>
                     <button type="submit" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 rounded-xl shadow-lg transform active:scale-95 transition-all text-sm">
-                        LOGIN
+                        Masuk 
                     </button>
                     <p class="text-[9px] text-center text-gray-400 mt-2 uppercase">© Hak Cipta UPT SDN 37 Lubuk Gambir</p>
                 </form>
@@ -67,7 +141,7 @@
             </div>
             <div class="flex items-center justify-center text-[10px] text-blue-300 uppercase tracking-widest font-semibold">
                 <span id="cloud-indicator" class="w-2 h-2 bg-yellow-400 rounded-full mr-2"></span> 
-                <span id="cloud-text">Online</span>
+                <span id="cloud-text">Aktif</span>
             </div>
         </div>
         <nav class="mt-4 px-2 space-y-1 flex-1 overflow-y-auto">
@@ -83,12 +157,15 @@
             <button onclick="showPage('laporan')" id="nav-laporan" class="w-full text-left px-4 py-3 rounded transition hover:bg-blue-800 flex items-center">
                 <span class="mr-3">📋</span> Laporan Kuitansi
             </button>
+            <button onclick="showPage('arsip')" id="nav-arsip" class="w-full text-left px-4 py-3 rounded transition hover:bg-blue-800 flex items-center">
+                <span class="mr-3">🗄️</span> Arsip Kuitansi
+            </button>
             <button onclick="syncDataFromCloud()" class="w-full text-left px-4 py-3 rounded transition hover:bg-blue-800 flex items-center text-blue-300 border-t border-blue-800 mt-4 pt-4">
-                <span class="mr-3">🔄</span> SINGKRON
+                <span class="mr-3">🔄</span> Tarik Data
             </button>
         </nav>
         <div class="p-4 bg-blue-950/50 text-[10px] text-blue-400 text-center border-t border-blue-800">
-            Sistem Manajemen BOS v4.3
+            Sistem Manajemen BOS SDN 37
         </div>
     </aside>
 
@@ -96,6 +173,10 @@
         <header class="bg-white shadow-sm px-8 py-4 flex justify-between items-center">
             <h2 id="page-title" class="text-lg font-semibold text-gray-700">Beranda</h2>
             <div class="flex items-center gap-4">
+                <!-- Tombol Layar Penuh (Dapat berganti tulisan/status) -->
+                <button id="fullscreen-btn" onclick="toggleFullscreen()" class="text-sm font-bold text-blue-700 hover:bg-blue-50 px-3 py-1 rounded transition-colors flex items-center gap-1">
+                    <span>📺</span> Layar Penuh
+                </button>
                 <button onclick="logout()" class="text-sm font-bold text-red-600 hover:bg-red-50 px-3 py-1 rounded transition-colors">Logout</button>
             </div>
         </header>
@@ -145,9 +226,11 @@
                             <input type="number" id="m_right" value="20" class="w-full p-1 text-center border rounded text-xs">
                         </div>
                     </div>
-                    <div class="flex space-x-2">
+                    <div class="flex space-x-2 flex-wrap gap-y-2">
                          <a href="https://docs.google.com/spreadsheets/d/1k7d6IqRsgpMsQHxTEDhhCGGaZ8b1tJpX0ku9piYCki4/edit?usp=sharing" target="_blank" class="text-xs bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition font-bold flex items-center">Database</a>
+                         <button onclick="moveToArchive()" class="text-xs bg-yellow-600 text-white px-3 py-2 rounded-lg hover:bg-yellow-700 transition font-bold">Pindahkan Ke Arsip</button>
                          <button onclick="deleteAllKuitansi()" class="text-xs bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition font-bold">Hapus Semua</button>
+                         <button onclick="downloadAllPDF()" class="text-xs bg-indigo-600 text-white px-3 py-2 rounded-lg hover:bg-indigo-700 transition font-bold">Download Semua</button>
                          <button onclick="syncDataFromCloud()" class="text-xs bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition font-bold">Update Data</button>
                     </div>
                 </div>
@@ -171,10 +254,49 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Page Arsip Kuitansi -->
+            <section id="page-arsip" class="hidden space-y-4">
+                <!-- Toolbar Arsip -->
+                <div class="bg-white p-4 rounded-lg shadow-sm border flex flex-col md:flex-row gap-4 justify-between items-end md:items-center">
+                    <div class="w-full md:w-1/3">
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Filter Nomor BKU (Arsip)</label>
+                        <input type="text" id="bku_arsip_search" oninput="renderArsip()" placeholder="Cari nomor BKU di arsip..." class="w-full px-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div class="w-full md:w-1/4">
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Filter Tahun</label>
+                        <select id="arsip_tahun_filter" onchange="renderArsip()" class="w-full px-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500 bg-white font-medium">
+                            <option value="Semua">Semua Tahun</option>
+                        </select>
+                    </div>
+                    <div class="flex space-x-2">
+                         <button onclick="syncDataFromCloud()" class="text-xs bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition font-bold">Update Data</button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-xl overflow-hidden border border-gray-100">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-800 text-white">
+                                <tr>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase">BKU</th>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase">Tanggal</th>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase">Penerima</th>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase">Jumlah</th>
+                                    <th class="px-6 py-4 text-xs font-bold uppercase text-center">Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="arsip-body" class="divide-y divide-gray-100">
+                                <tr><td colspan="5" class="px-6 py-10 text-center text-gray-400 italic">Memuat data arsip...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
             
             <section id="page-penanggung-jawab" class="hidden">
                  <div class="bg-white rounded-xl shadow-lg p-8 max-w-2xl mx-auto border border-gray-100">
-                    <h3 class="text-xl font-bold mb-6 text-blue-900 border-b pb-4">Data Penandatangan</h3>
+                    <h3 class="text-xl font-bold mb-6 text-blue-900 border-b pb-4">Data Pejabat Penandatangan</h3>
                     <form id="form-pj" class="space-y-5">
                         <div class="grid grid-cols-1 gap-4">
                             <div>
@@ -194,9 +316,9 @@
                                 <input type="text" id="bd_nip" class="mt-1 block w-full border rounded-lg p-3 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all">
                             </div>
                         </div>
-                        <button type="button" onclick="savePJ()" class="w-full bg-blue-700 text-white py-3 rounded-xl font-bold hover:bg-blue-800 shadow-lg transform active:scale-95 transition-all mt-4">SIMPAN</button>
+                        <button type="button" onclick="savePJ()" class="w-full bg-blue-700 text-white py-3 rounded-xl font-bold hover:bg-blue-800 shadow-lg transform active:scale-95 transition-all mt-4">Simpan</button>
                     </form>
-                </div>
+                 </div>
             </section>
 
             <section id="page-kuitansi" class="hidden">
@@ -243,7 +365,7 @@
                              <input type="number" id="pjk_daerah" placeholder="Pjk Daer" class="border p-2 rounded text-sm">
                         </div>
 
-                        <button type="button" onclick="saveKuitansi()" class="w-full bg-blue-700 text-white py-3 rounded-lg font-bold shadow-md hover:bg-blue-800 transition">KIRIM</button>
+                        <button type="button" onclick="saveKuitansi()" class="w-full bg-blue-700 text-white py-3 rounded-lg font-bold shadow-md hover:bg-blue-800 transition">Kirim</button>
                     </form>
                 </div>
             </section>
@@ -253,16 +375,121 @@
     <div id="toast" class="fixed bottom-10 right-10 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-2xl opacity-0 transition-opacity pointer-events-none z-[110]"></div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw5plvJ4eSxSjbIUzsDlRuf2NrseYX94wuxz8MSp_t4PdLKkCWg2O1tlysSYDxRuuw/exec"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8Hy2IuPGK29vlQ972O4MIfnr844Ro0Y06tLjSPm2eXylTCrumZXHrScZv_FuLFCvm/exec"; 
         const LOGIN_CONFIG = { username: "SDN37", password: "12345" };
 
         let appData = {
             pj: { ks_nama: '', ks_nip: '', bd_nama: '', bd_nip: '' },
             kuitansi: [],
+            arsip: [],
             isLoggedIn: localStorage.getItem('bos_cloud_isLoggedIn') === 'true'
         };
 
         const loader = document.getElementById('loading-overlay');
+
+        function openUpdateModal() {
+            document.getElementById('update-info-modal').classList.remove('hidden');
+        }
+
+        function closeUpdateModal() {
+            document.getElementById('update-info-modal').classList.add('hidden');
+        }
+
+        // Fungsi toggle layar penuh untuk mendukung Laptop, Tablet, dan Smartphone
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    showToast("Layar penuh tidak didukung di perangkat ini: " + err.message);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // Listener pendeteksi perubahan status layar penuh
+        document.addEventListener('fullscreenchange', () => {
+            const btn = document.getElementById('fullscreen-btn');
+            if (btn) {
+                if (document.fullscreenElement) {
+                    btn.innerHTML = '<span>📴</span> Layar Biasa';
+                } else {
+                    btn.innerHTML = '<span>📺</span> Layar Penuh';
+                }
+            }
+        });
+
+        function customAlert(message, title = "Informasi", icon = "ℹ️") {
+            return new Promise((resolve) => {
+                const modal = document.getElementById('custom-confirm-modal');
+                const titleEl = document.getElementById('confirm-title');
+                const msgEl = document.getElementById('confirm-message');
+                const cancelBtn = document.getElementById('confirm-cancel');
+                const okBtn = document.getElementById('confirm-ok');
+                const iconEl = document.getElementById('confirm-icon');
+                
+                titleEl.textContent = title;
+                msgEl.textContent = message;
+                iconEl.textContent = icon;
+                
+                cancelBtn.classList.add('hidden');
+                okBtn.textContent = "OK";
+                okBtn.className = "px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-xl text-sm font-bold transition active:scale-95";
+                
+                modal.classList.remove('hidden');
+                
+                const handleOk = () => {
+                    modal.classList.add('hidden');
+                    cancelBtn.classList.remove('hidden');
+                    okBtn.textContent = "Ya, Lanjutkan";
+                    okBtn.className = "px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-xl text-sm font-bold transition active:scale-95";
+                    okBtn.removeEventListener('click', handleOk);
+                    resolve();
+                };
+                
+                okBtn.addEventListener('click', handleOk);
+            });
+        }
+
+        function customConfirm(message, title = "Konfirmasi", icon = "❓") {
+            return new Promise((resolve) => {
+                const modal = document.getElementById('custom-confirm-modal');
+                const titleEl = document.getElementById('confirm-title');
+                const msgEl = document.getElementById('confirm-message');
+                const cancelBtn = document.getElementById('confirm-cancel');
+                const okBtn = document.getElementById('confirm-ok');
+                const iconEl = document.getElementById('confirm-icon');
+                
+                titleEl.textContent = title;
+                msgEl.textContent = message;
+                iconEl.textContent = icon;
+                
+                okBtn.className = "px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-bold transition active:scale-95";
+                
+                modal.classList.remove('hidden');
+                
+                const handleCancel = () => {
+                    modal.classList.add('hidden');
+                    cleanup();
+                    resolve(false);
+                };
+                
+                const handleOk = () => {
+                    modal.classList.add('hidden');
+                    cleanup();
+                    resolve(true);
+                };
+                
+                const cleanup = () => {
+                    cancelBtn.removeEventListener('click', handleCancel);
+                    okBtn.removeEventListener('click', handleOk);
+                };
+                
+                cancelBtn.addEventListener('click', handleCancel);
+                okBtn.addEventListener('click', handleOk);
+            });
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             if(appData.isLoggedIn) {
@@ -276,12 +503,24 @@
                 const p = document.getElementById('password_input').value.trim();
                 
                 if(u === LOGIN_CONFIG.username && p === LOGIN_CONFIG.password) {
+                    const loadingTextEl = document.getElementById('loading-text');
+                    showLoading(true);
+
+                    // Animasi persentase login profesional 1% s/d 100%
+                    for (let percent = 1; percent <= 100; percent++) {
+                        loadingTextEl.innerText = `Sedang Login, Harap tunggu... ${percent}%`;
+                        await new Promise(resolve => setTimeout(resolve, 15));
+                    }
+
                     appData.isLoggedIn = true;
                     localStorage.setItem('bos_cloud_isLoggedIn', 'true');
                     showDashboard();
                     await syncDataFromCloud();
+
+                    // Kembalikan teks bawaan untuk pemrosesan lainnya
+                    loadingTextEl.innerText = "Memproses Kuitansi...";
                 } else {
-                    alert('Username atau Kata Sandi Salah!');
+                    await customAlert('Username atau Kata Sandi Salah!', 'Login Gagal', '❌');
                 }
             });
         });
@@ -291,6 +530,9 @@
             document.getElementById('main-sidebar').classList.remove('hidden');
             document.getElementById('main-content').classList.remove('hidden');
             showPage('beranda');
+            
+            // Tampilkan Informasi Pembaruan di sini sesudah masuk ke Beranda
+            openUpdateModal();
         }
 
         function showLoading(show) {
@@ -306,8 +548,10 @@
                 if (cloudData) {
                     appData.pj = cloudData.pj || appData.pj;
                     appData.kuitansi = cloudData.kuitansi || [];
+                    appData.arsip = cloudData.arsip || [];
                     loadPJFields();
                     renderLaporan();
+                    renderArsip();
                     updateStats();
                 }
             } catch (error) {
@@ -382,6 +626,88 @@
             }
         }
 
+        function renderArsip() {
+            const tbody = document.getElementById('arsip-body');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            const searchVal = document.getElementById('bku_arsip_search') ? document.getElementById('bku_arsip_search').value.toLowerCase() : '';
+            const selectFilter = document.getElementById('arsip_tahun_filter');
+            let activeYear = 'Semua';
+
+            if(selectFilter) {
+                const currentSelected = selectFilter.value || 'Semua';
+
+                // Ekstrak tahun unik dari arsip
+                const years = new Set();
+                appData.arsip.forEach(item => {
+                    let dateStr = (item.tanggalFormat || item.tanggal || "");
+                    if (dateStr.startsWith("'")) dateStr = dateStr.substring(1);
+                    const parts = dateStr.split('-');
+                    if (parts.length === 3) {
+                        years.add(parts[0]);
+                    }
+                });
+
+                // Buat ulang pilihan Tahun
+                selectFilter.innerHTML = '<option value="Semua">Semua Tahun</option>';
+                Array.from(years).sort((a, b) => b - a).forEach(yr => {
+                    const opt = document.createElement('option');
+                    opt.value = yr;
+                    opt.textContent = yr;
+                    selectFilter.appendChild(opt);
+                });
+
+                if (years.has(currentSelected) || currentSelected === "Semua") {
+                    selectFilter.value = currentSelected;
+                } else {
+                    selectFilter.value = "Semua";
+                }
+                activeYear = selectFilter.value;
+            }
+
+            let filtered = appData.arsip;
+
+            if(searchVal) {
+                filtered = filtered.filter(k => (k.bku || '').toLowerCase().includes(searchVal));
+            }
+
+            if(activeYear !== "Semua") {
+                filtered = filtered.filter(k => {
+                    let dateStr = (k.tanggalFormat || k.tanggal || "");
+                    if (dateStr.startsWith("'")) dateStr = dateStr.substring(1);
+                    const parts = dateStr.split('-');
+                    return parts.length === 3 && parts[0] === activeYear;
+                });
+            }
+
+            if (filtered && filtered.length > 0) {
+                [...filtered].sort((a,b) => b.id - a.id).forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-gray-50 transition";
+                    
+                    let displayDate = (item.tanggalFormat || item.tanggal || "");
+                    if (displayDate.startsWith("'")) displayDate = displayDate.substring(1);
+
+                    const tglTampil = formatDateIndo(displayDate);
+                    
+                    tr.innerHTML = `
+                        <td class="px-6 py-4 font-bold text-blue-900">${item.bku || '-'}</td>
+                        <td class="px-6 py-4 text-sm">${tglTampil}</td>
+                        <td class="px-6 py-4 text-sm">${item.penerima || '-'}</td>
+                        <td class="px-6 py-4 font-bold">Rp ${Number(item.jumlah || 0).toLocaleString('id-ID')}</td>
+                        <td class="px-6 py-4 text-center space-x-1 whitespace-nowrap">
+                            <button onclick="handlePDF(${item.id}, 'view')" class="bg-blue-600 text-white px-2 py-1 rounded text-[10px] uppercase font-bold hover:bg-blue-700">Lihat</button>
+                            <button onclick="handlePDF(${item.id}, 'download')" class="bg-green-600 text-white px-2 py-1 rounded text-[10px] uppercase font-bold hover:bg-green-700">PDF</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-10 text-center text-gray-400 italic">Data Arsip Tidak Ditemukan</td></tr>';
+            }
+        }
+
         function showPage(pageId) {
             document.querySelectorAll('section').forEach(p => p.classList.add('hidden'));
             document.getElementById('page-' + pageId).classList.remove('hidden');
@@ -430,13 +756,32 @@
         }
 
         async function deleteKuitansi(id) {
-            if(confirm('Hapus data ini secara permanen?')) await callCloud('deleteKuitansi', { id });
+            const confirmed = await customConfirm('Hapus data ini secara permanen?', 'Hapus Kuitansi', '⚠️');
+            if (confirmed) {
+                await callCloud('deleteKuitansi', { id });
+            }
         }
 
         async function deleteAllKuitansi() {
-            if(confirm('PERINGATAN: Apakah Anda yakin ingin menghapus SELURUH data kuitansi di cloud?')) {
-                if(confirm('Tindakan ini tidak bisa dibatalkan. Hapus semua data sekarang?')) {
+            const confirmed1 = await customConfirm('PERINGATAN: Apakah Anda yakin ingin menghapus SELURUH data kuitansi di cloud?', 'Hapus Semua Data', '⚠️');
+            if (confirmed1) {
+                const confirmed2 = await customConfirm('Tindakan ini tidak bisa dibatalkan. Hapus semua data sekarang?', 'Konfirmasi Akhir', '🚨');
+                if (confirmed2) {
                     await callCloud('deleteAllKuitansi', {});
+                }
+            }
+        }
+
+        async function moveToArchive() {
+            if (appData.kuitansi.length === 0) {
+                await customAlert('Tidak ada data kuitansi aktif untuk diarsipkan!', 'Arsip Kosong', '❌');
+                return;
+            }
+            const confirmed1 = await customConfirm('Apakah Anda yakin ingin memindahkan seluruh Laporan Kuitansi aktif saat ini ke dalam Arsip?', 'Pindahkan Ke Arsip', '🗄️');
+            if (confirmed1) {
+                const confirmed2 = await customConfirm('Tindakan ini akan mengosongkan halaman laporan aktif. Lanjutkan?', 'Konfirmasi Pemindahan', '🔄');
+                if (confirmed2) {
+                    await callCloud('moveToArchive', {});
                 }
             }
         }
@@ -480,7 +825,7 @@
             } else if (nilai < 20) {
                 temp = angkaKeTerbilang(nilai - 10) + " Belas";
             } else if (nilai < 100) {
-                temp = angkaKeTerbilang(Math.floor(nilai / 10)) + " Puluh" + angkaKeTerbilang(nilai % 10);
+                temp = " " + angkaKeTerbilang(Math.floor(nilai / 10)) + " Puluh" + angkaKeTerbilang(nilai % 10);
             } else if (nilai < 200) {
                 temp = " Seratus" + angkaKeTerbilang(nilai - 100);
             } else if (nilai < 1000) {
@@ -494,7 +839,7 @@
             } else if (nilai < 1000000000000) {
                 temp = angkaKeTerbilang(Math.floor(nilai / 1000000000)) + " Miliar" + angkaKeTerbilang(nilai % 1000000000);
             } else if (nilai < 1000000000000000) {
-                temp = angkaKeTerbilang(Math.floor(nilai / 1000000000000)) + " Triliun" + angkaKeTerbilang(nilai % 1000000000000);
+                temp = " Triliun" + angkaKeTerbilang(nilai % 1000000000000);
             }
             return temp;
         }
@@ -525,17 +870,16 @@
             });
         }
 
-        /**
-         * Fungsi Terpadu untuk Lihat atau Download PDF
-         */
         async function handlePDF(id, mode = 'download') {
             showLoading(true);
             try {
-                const data = appData.kuitansi.find(k => k.id == id);
+                let data = appData.kuitansi.find(k => k.id == id);
+                if (!data) {
+                    data = appData.arsip.find(k => k.id == id);
+                }
                 const pj = appData.pj || {};
                 if(!data) throw new Error("Data kuitansi tidak ditemukan.");
                 
-                // Ambil Nilai Margin dari Input
                 const mTop = parseFloat(document.getElementById('m_top').value) || 15;
                 const mBottom = parseFloat(document.getElementById('m_bottom').value) || 15;
                 const mLeft = parseFloat(document.getElementById('m_left').value) || 25;
@@ -544,7 +888,6 @@
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: [215.9, 355.6] });
                 
-                // URL Assets
                 const logoLeftUrl = "https://iili.io/3QUsMEx.png"; 
                 const logoRightUrl = "https://iili.io/fty6XYg.jpg"; 
                 const watermarkUrl = "https://iili.io/BsMgKKP.jpg";
@@ -559,7 +902,6 @@
                 const pageHeight = doc.internal.pageSize.getHeight();
                 const centerX = pageWidth / 2;
 
-                // --- 1. RENDER WATERMARK (Layer Paling Belakang) ---
                 if (imgWatermark) {
                     try {
                         doc.saveGraphicsState();
@@ -575,11 +917,9 @@
                     } catch (e) { console.error("Gagal render watermark:", e); }
                 }
 
-                // --- 2. RENDER LOGO KOP (Kiri & Kanan) ---
                 if (imgLeft) doc.addImage(imgLeft, 'PNG', mLeft - 5, mTop, 22, 22);
                 if (imgRight) doc.addImage(imgRight, 'JPEG', pageWidth - mRight - 17, mTop, 22, 22);
 
-                // --- HEADER KOP TEKS ---
                 doc.setFont('times', 'bold');
                 doc.setFontSize(14).text('PEMERINTAH KABUPATEN PESISIR SELATAN', centerX, mTop + 3, { align: 'center' });
                 doc.text('DINAS PENDIDIKAN', centerX, mTop + 9, { align: 'center' });
@@ -588,7 +928,7 @@
                 
                 doc.setTextColor(0, 0, 255); 
                 doc.setFontSize(10).setFont('times', 'italic');
-                doc.text('Jalan Pasar Baru - Asam Kumbang, Email : lubukgambirs@gmail.com , Kode Pos : 25652', centerX, mTop + 26, { align: 'center' });
+                doc.text('Jalan Pasar Baru - Asam Kumbang, Email :  lubukgambirs@gmail.com, Kode Pos : 25652', centerX, mTop + 26, { align: 'center' });
                 
                 doc.setTextColor(0, 0, 0);
                 doc.setLineWidth(0.8).line(mLeft - 5, mTop + 29, pageWidth - mRight + 5, mTop + 29);
@@ -596,24 +936,18 @@
 
                 doc.setFontSize(14).setFont('times', 'bold').text('KUITANSI', centerX, mTop + 40, { align: 'center' });
                 
-                // --- KONTEN UTAMA ---
                 let y = mTop + 50;
                 doc.setFontSize(12).setFont('times', 'normal');
                 
-                // --- POSISI KANAN UNTUK BKU & REKENING ---
                 const rightAlignLabelX = pageWidth - mRight - 60;
                 const rightAlignValueX = pageWidth - mRight - 32;
 
                 doc.text('Nomor BKU', rightAlignLabelX, y); doc.text(': ' + (data.bku || '-'), rightAlignValueX, y); y += 8;
                 doc.text('Kode Rekening', rightAlignLabelX, y); doc.text(': ' + (data.rek || '-'), rightAlignValueX, y); y += 8;
                 
-                // Reset Y untuk data sebelah kiri agar sejajar
                 y = mTop + 50;
                 const labelX = mLeft;
                 const valueX = mLeft + 40;
-                
-                // Lewati Y agar tidak menimpa BKU & Rekening jika data kiri terlalu banyak (opsional)
-                // Namun untuk kuitansi standar, BKU & Rek di kanan atas biasanya hanya 2 baris.
                 
                 doc.text('Sudah Terima Dari', labelX, y + 16); doc.text(': ' + (data.pemberi || 'Bendahara BOS'), valueX, y + 16); 
                 y += 24;
@@ -631,7 +965,6 @@
                 doc.text(untukLines, valueX, y);
                 y += (untukLines.length * 6) + 10;
                 
-                // --- RINCIAN PAJAK ---
                 doc.setFont('times', 'bold').text('Rincian Pajak:', labelX, y);
                 y += 6;
                 doc.setFont('times', 'normal').setFontSize(11);
@@ -685,7 +1018,7 @@
                 
                 const footerY = pageHeight - mBottom; 
                 doc.setFontSize(8).setFont('times', 'italic').setTextColor(150, 150, 150); 
-                doc.text(`NOMOR BKU: ${data.bku || '-'}`, mLeft, footerY);
+                doc.text(`Referensi BKU: ${data.bku || '-'}`, mLeft, footerY);
                 
                 const now = new Date();
                 const printTime = `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth()+1).toString().padStart(2, '0')}/${now.getFullYear()} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
@@ -703,6 +1036,179 @@
             } catch (err) {
                 console.error("PDF Render Error:", err);
                 showToast("Gagal memproses PDF.");
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        /**
+         * Mengunduh Seluruh Kuitansi Terfilter ke dalam satu berkas PDF multi-halaman
+         */
+        async function downloadAllPDF() {
+            const searchVal = document.getElementById('bku_search').value.toLowerCase();
+            let filtered = appData.kuitansi;
+            if(searchVal) {
+                filtered = appData.kuitansi.filter(k => (k.bku || '').toLowerCase().includes(searchVal));
+            }
+            if (filtered.length === 0) {
+                await customAlert('Tidak ada kuitansi aktif yang tersedia untuk diunduh!', 'Data Kosong', '⚠️');
+                return;
+            }
+
+            showLoading(true);
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: [215.9, 355.6] });
+                
+                const logoLeftUrl = "https://iili.io/3QUsMEx.png"; 
+                const logoRightUrl = "https://iili.io/fty6XYg.jpg"; 
+                const watermarkUrl = "https://iili.io/BsMgKKP.jpg";
+
+                let imgLeft = null, imgRight = null, imgWatermark = null;
+                try { imgLeft = await getImageFromUrl(logoLeftUrl); } catch(e) {}
+                try { imgRight = await getImageFromUrl(logoRightUrl); } catch(e) {}
+                try { imgWatermark = await getImageFromUrl(watermarkUrl); } catch(e) {}
+
+                const mTop = parseFloat(document.getElementById('m_top').value) || 15;
+                const mBottom = parseFloat(document.getElementById('m_bottom').value) || 15;
+                const mLeft = parseFloat(document.getElementById('m_left').value) || 25;
+                const mRight = parseFloat(document.getElementById('m_right').value) || 20;
+
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.getHeight();
+                const centerX = pageWidth / 2;
+
+                for (let i = 0; i < filtered.length; i++) {
+                    if (i > 0) {
+                        doc.addPage();
+                    }
+                    const data = filtered[i];
+                    const pj = appData.pj || {};
+
+                    if (imgWatermark) {
+                        try {
+                            doc.saveGraphicsState();
+                            const gState = new doc.GState({opacity: 0.15});
+                            doc.setGState(gState);
+                            const wSize = 135; 
+                            const wX = (pageWidth - wSize) / 2;
+                            const wY = (pageHeight - wSize) / 2;
+                            doc.addImage(imgWatermark, 'JPEG', wX, wY, wSize, wSize, undefined, 'FAST');
+                            doc.restoreGraphicsState();
+                        } catch (e) { console.error(e); }
+                    }
+
+                    if (imgLeft) doc.addImage(imgLeft, 'PNG', mLeft - 5, mTop, 22, 22);
+                    if (imgRight) doc.addImage(imgRight, 'JPEG', pageWidth - mRight - 17, mTop, 22, 22);
+
+                    doc.setFont('times', 'bold');
+                    doc.setFontSize(14).text('PEMERINTAH KABUPATEN PESISIR SELATAN', centerX, mTop + 3, { align: 'center' });
+                    doc.text('DINAS PENDIDIKAN DAN KEBUDAYAAN', centerX, mTop + 9, { align: 'center' });
+                    doc.setFontSize(15).text('UPT SDN 37 LUBUK GAMBIR', centerX, mTop + 15, { align: 'center' });
+                    doc.text('KECAMATAN BAYANG', centerX, mTop + 21, { align: 'center' });
+                    
+                    doc.setTextColor(0, 0, 255); 
+                    doc.setFontSize(10).setFont('times', 'italic');
+                    doc.text('Lubuk Gambir, kapeh Panji jaya, Email : 23apajaya@gmail.com', centerX, mTop + 26, { align: 'center' });
+                    
+                    doc.setTextColor(0, 0, 0);
+                    doc.setLineWidth(0.8).line(mLeft - 5, mTop + 29, pageWidth - mRight + 5, mTop + 29);
+                    doc.setLineWidth(0.2).line(mLeft - 5, mTop + 30, pageWidth - mRight + 5, mTop + 30);
+
+                    doc.setFontSize(14).setFont('times', 'bold').text('KUITANSI', centerX, mTop + 40, { align: 'center' });
+                    
+                    let y = mTop + 50;
+                    doc.setFontSize(12).setFont('times', 'normal');
+                    
+                    const rightAlignLabelX = pageWidth - mRight - 60;
+                    const rightAlignValueX = pageWidth - mRight - 32;
+                    doc.text('Nomor BKU', rightAlignLabelX, y); doc.text(': ' + (data.bku || '-'), rightAlignValueX, y); y += 8;
+                    doc.text('Kode Rekening', rightAlignLabelX, y); doc.text(': ' + (data.rek || '-'), rightAlignValueX, y); y += 8;
+                    
+                    y = mTop + 50;
+                    const labelX = mLeft;
+                    const valueX = mLeft + 40;
+                    doc.text('Sudah Terima Dari', labelX, y + 16); doc.text(': ' + (data.pemberi || 'Bendahara BOS'), valueX, y + 16); 
+                    y += 24;
+
+                    doc.text('Uang Sejumlah', labelX, y); 
+                    doc.setFont('times', 'bold').text(': Rp ' + Number(data.jumlah || 0).toLocaleString('id-ID'), valueX, y); y += 8;
+                    
+                    doc.setFont('times', 'italic').text('Terbilang', labelX, y);
+                    const terbilangLines = doc.splitTextToSize(': ' + (data.terbilang || '-'), pageWidth - mRight - valueX);
+                    doc.text(terbilangLines, valueX, y);
+                    y += (terbilangLines.length * 6) + 2;
+
+                    doc.setFont('times', 'normal').text('Untuk Pembayaran', labelX, y);
+                    const untukLines = doc.splitTextToSize(': ' + (data.untuk || '-'), pageWidth - mRight - valueX);
+                    doc.text(untukLines, valueX, y);
+                    y += (untukLines.length * 6) + 10;
+                    
+                    doc.setFont('times', 'bold').text('Rincian Pajak:', labelX, y);
+                    y += 6;
+                    doc.setFont('times', 'normal').setFontSize(11);
+                    
+                    const formatRp = (val) => (parseFloat(val) || 0).toLocaleString('id-ID');
+                    const taxItems = [
+                        { label: 'DPP', value: data.dpp },
+                        { label: 'PPN', value: data.ppn },
+                        { label: 'PPh 21', value: data.pph21 },
+                        { label: 'PPh 23', value: data.pph23 },
+                        { label: 'Pajak Daerah', value: data.pjk_daerah }
+                    ];
+
+                    taxItems.forEach(item => {
+                        doc.text(item.label, labelX + 5, y);
+                        doc.text(': Rp ' + formatRp(item.value), labelX + 35, y);
+                        y += 6;
+                    });
+                    y += 5;
+                    
+                    const colRightPos = pageWidth - mRight - 60; 
+                    doc.setFontSize(11);
+                    
+                    let rawDate = (data.tanggalFormat || data.tanggal || "");
+                    if(rawDate.startsWith("'")) rawDate = rawDate.substring(1);
+                    const tglBersih = formatDateIndo(rawDate);
+                    
+                    doc.setFont('times', 'normal'); 
+                    doc.text('Lubuk Gambir, ' + tglBersih, colRightPos, y);
+                    y += 5;
+                    doc.text('Yang Menerima,', colRightPos, y);
+                    y += 20;
+                    doc.setFont('times', 'bold').text(data.penerima || '..............................', colRightPos, y);
+                    y += 15; 
+                    
+                    doc.setFont('times', 'normal').text('Setuju Dibayar,', mLeft, y);
+                    doc.text('Lunas Bayar,', colRightPos, y);
+                    
+                    y += 5;
+                    doc.setFont('times', 'normal').text('Kepala Sekolah,', mLeft, y);
+                    doc.text('Bendahara BOS,', colRightPos, y);
+                    y += 20; 
+                    
+                    doc.setFont('times', 'bold').text(pj.ks_nama || '..............................', mLeft, y);
+                    doc.text(pj.bd_nama || '..............................', colRightPos, y);
+                    
+                    y += 5;
+                    doc.setFont('times', 'normal');
+                    doc.text('NIP. ' + (pj.ks_nip || '..............................'), mLeft, y);
+                    doc.text('NIP. ' + (pj.bd_nip || '..............................'), colRightPos, y);
+                    
+                    const footerY = pageHeight - mBottom; 
+                    doc.setFontSize(8).setFont('times', 'italic').setTextColor(150, 150, 150); 
+                    doc.text(`Referensi BKU: ${data.bku || '-'}`, mLeft, footerY);
+                    
+                    const now = new Date();
+                    const printTime = `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth()+1).toString().padStart(2, '0')}/${now.getFullYear()} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+                    doc.text(`Dicetak melalui Sistem Manajemen BOS SDN 37 Lubuk Gambir pada: ${printTime} WIB`, pageWidth - mRight, footerY, { align: 'right' });
+                }
+                
+                doc.save(`semua_kuitansi_bos_sdn37_lubuk_gambir.pdf`);
+                showToast("Unduhan massal PDF berhasil diproses.");
+            } catch (err) {
+                console.error("PDF Generate Error:", err);
+                showToast("Gagal memproses unduhan massal.");
             } finally {
                 showLoading(false);
             }
