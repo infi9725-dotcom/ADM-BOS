@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SDN 37 LUBUK GAMBIR</title>
+    <title>Manajemen BOS SDN 37 Lubuk Gambi</title>
     
-    <!-- Meta tag untuk kemampuan PWA & Standalone Web App (Layar Penuh di Perangkat Seluler) -->
+    <!-- Meta tag untuk PWA & Standalone Web App -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="BOS SDN 37">
-    <meta name="theme-color" content="#1e3a8a">
+    <meta name="theme-color" content="#FF1493">
     
     <!-- Favicon Link -->
     <link class="rounded-full" rel="icon" type="image/jpeg" href="https://iili.io/BsufuV4.jpg">
@@ -18,365 +18,645 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .sidebar-active { background-color: #1e40af; border-left: 4px solid #fde047; }
-        .loader { border-top-color: #3498db; animation: spinner 1.5s linear infinite; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: linear-gradient(135deg, #FFE6F2 0%, #FF1493 50%, #C71585 100%);
+            background-attachment: fixed;
+        }
+
+        /* Claymorphism 3D Style Rules */
+        .clay-bg-container {
+            background: linear-gradient(145deg, #FFD1E8 0%, #FF85C0 100%);
+            box-shadow: 20px 20px 50px rgba(168, 0, 94, 0.4), -10px -10px 30px rgba(255, 255, 255, 0.6);
+            border-radius: 40px;
+        }
+
+        .clay-card {
+            background: #FFF5FA;
+            border-radius: 32px;
+            box-shadow: 
+                0px 20px 40px rgba(186, 12, 107, 0.25),
+                inset 0px 4px 6px rgba(255, 255, 255, 0.9),
+                inset 0px -6px 12px rgba(255, 105, 180, 0.2);
+            border: 3px solid #FFFFFF;
+        }
+
+        .clay-input-wrapper {
+            background: #FFF0F6;
+            border-radius: 24px;
+            box-shadow: 
+                inset 4px 4px 8px rgba(199, 21, 133, 0.18),
+                inset -4px -4px 8px rgba(255, 255, 255, 0.9);
+            border: 2px solid #FFB6C1;
+            transition: all 0.25s ease;
+        }
+
+        .clay-input-wrapper:focus-within {
+            border-color: #FF1493;
+            box-shadow: 
+                inset 2px 2px 5px rgba(199, 21, 133, 0.25),
+                0 0 0 4px rgba(255, 20, 147, 0.2);
+            background: #FFFFFF;
+        }
+
+        /* 3D Dynamic Buttons */
+        .btn-3d-pink {
+            background: linear-gradient(180deg, #FF69B4 0%, #FF1493 100%);
+            color: #ffffff;
+            box-shadow: 0 6px 0 #A8005E, 0 12px 20px rgba(255, 20, 147, 0.4);
+            border: 1px solid #FF8DA1;
+            transition: all 0.15s ease;
+        }
+        .btn-3d-pink:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #A8005E, 0 14px 22px rgba(255, 20, 147, 0.5);
+            background: linear-gradient(180deg, #FF1493 0%, #C71585 100%);
+        }
+        .btn-3d-pink:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #A8005E, 0 4px 8px rgba(255, 20, 147, 0.3);
+        }
+
+        .btn-3d-purple {
+            background: linear-gradient(180deg, #D8BFD8 0%, #8A2BE2 100%);
+            color: #ffffff;
+            box-shadow: 0 5px 0 #5A189A, 0 10px 15px rgba(138, 43, 226, 0.4);
+            border: 1px solid #E6E6FA;
+            transition: all 0.15s ease;
+        }
+        .btn-3d-purple:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 #5A189A, 0 12px 20px rgba(138, 43, 226, 0.5);
+        }
+        .btn-3d-purple:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #5A189A, 0 5px 10px rgba(138, 43, 226, 0.3);
+        }
+
+        .btn-3d-green {
+            background: linear-gradient(180deg, #50C878 0%, #2E8B57 100%);
+            color: #ffffff;
+            box-shadow: 0 5px 0 #1B4D3E, 0 10px 15px rgba(46, 139, 87, 0.4);
+            border: 1px solid #A8E6CF;
+            transition: all 0.15s ease;
+        }
+        .btn-3d-green:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 #1B4D3E, 0 12px 20px rgba(46, 139, 87, 0.5);
+        }
+        .btn-3d-green:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #1B4D3E, 0 5px 10px rgba(46, 139, 87, 0.3);
+        }
+
+        .btn-3d-yellow {
+            background: linear-gradient(180deg, #FFD700 0%, #FF8C00 100%);
+            color: #4A2800;
+            box-shadow: 0 5px 0 #B35900, 0 10px 15px rgba(255, 140, 0, 0.4);
+            border: 1px solid #FFE5B4;
+            transition: all 0.15s ease;
+        }
+        .btn-3d-yellow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 #B35900, 0 12px 20px rgba(255, 140, 0, 0.5);
+        }
+        .btn-3d-yellow:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #B35900, 0 5px 10px rgba(255, 140, 0, 0.3);
+        }
+
+        .btn-3d-red {
+            background: linear-gradient(180deg, #FF4500 0%, #DC143C 100%);
+            color: #ffffff;
+            box-shadow: 0 5px 0 #8B0000, 0 10px 15px rgba(220, 20, 60, 0.4);
+            border: 1px solid #FFB3BA;
+            transition: all 0.15s ease;
+        }
+        .btn-3d-red:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 #8B0000, 0 12px 20px rgba(220, 20, 60, 0.5);
+        }
+        .btn-3d-red:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #8B0000, 0 5px 10px rgba(220, 20, 60, 0.3);
+        }
+
+        .card-3d {
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px -5px rgba(255, 20, 147, 0.3), inset 0 2px 2px #ffffff;
+            border: 2px solid #FF69B4;
+        }
+
+        .sidebar-active-3d {
+            background: linear-gradient(135deg, #FF1493 0%, #C71585 100%) !important;
+            color: #ffffff !important;
+            box-shadow: inset 0 3px 6px rgba(0,0,0,0.2), 0 4px 10px rgba(255, 20, 147, 0.5);
+            border-left: 5px solid #FFE6F2 !important;
+            font-weight: 800;
+        }
+
+        .input-3d {
+            background: #FFF0F5;
+            border: 2px solid #FF69B4;
+            box-shadow: inset 0 2px 4px rgba(255, 20, 147, 0.15);
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+        .input-3d:focus {
+            background: #ffffff;
+            border-color: #FF1493;
+            box-shadow: inset 0 2px 4px rgba(255, 20, 147, 0.1), 0 0 0 4px rgba(255, 20, 147, 0.3);
+            outline: none;
+        }
+
+        .loader { 
+            border-top-color: #FF1493; 
+            animation: spinner 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite; 
+        }
         @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .glossy-panel {
+            position: relative;
+            overflow: hidden;
+        }
+        .glossy-panel::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 40%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        .clay-character-static {
+            filter: drop-shadow(0 10px 12px rgba(139, 0, 66, 0.3));
+        }
     </style>
 </head>
-<body class="bg-gray-50 flex h-screen overflow-hidden">
+<body class="flex h-screen overflow-hidden text-gray-800">
 
     <!-- Loading Overlay -->
-    <div id="loading-overlay" class="fixed inset-0 z-[200] bg-white/80 flex flex-col items-center justify-center hidden">
-        <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
-        <p id="loading-text" class="text-blue-900 font-semibold animate-pulse">Sedang Proses</p>
+    <div id="loading-overlay" class="fixed inset-0 z-[200] bg-pink-950/40 backdrop-blur-md flex flex-col items-center justify-center hidden">
+        <div class="loader ease-linear rounded-full border-4 border-pink-100 h-14 w-14 mb-4"></div>
+        <p id="loading-text" class="text-pink-700 font-extrabold animate-pulse text-base">Memproses Kuitansi...</p>
     </div>
 
     <!-- Informasi Pembaruan (Update Info Modal) -->
-    <div id="update-info-modal" class="fixed inset-0 z-[150] bg-black/60 flex items-center justify-center p-4 hidden">
-         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden relative transform transition-all duration-300 p-6 space-y-4">
-             <!-- Tombol X untuk Menghilangkan Informasi -->
-             <button onclick="closeUpdateModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition text-2xl font-semibold leading-none">&times;</button>
+    <div id="update-info-modal" class="fixed inset-0 z-[150] bg-pink-950/50 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden relative transform transition-all duration-300 p-6 space-y-4 border-4 border-[#FF1493] glossy-panel">
+             <button onclick="closeUpdateModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-pink-100 text-pink-700 hover:bg-pink-200 transition flex items-center justify-center text-xl font-black leading-none shadow">&times;</button>
              
-             <div class="flex items-center space-x-3 border-b pb-3">
-                 <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xl font-bold">📢</div>
+             <div class="flex items-center space-x-3 border-b-2 border-pink-100 pb-3">
+                 <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#FF1493] to-[#C71585] flex items-center justify-center text-white text-2xl shadow-md">✨</div>
                  <div>
-                     <h4 class="text-base font-bold text-gray-900">Pembaruan Sistem</h4>
-                     <p class="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">SDN 37 Lubuk Gambir</p>
+                     <h4 class="text-lg font-extrabold text-pink-950">Pembaruan Hot Pink 3D</h4>
+                     <p class="text-[10px] text-pink-600 font-bold uppercase tracking-wider">SDN 37 Lubuk Gambir</p>
                  </div>
              </div>
              
-             <p class="text-xs text-gray-600 leading-relaxed">
-                 Halo! SDN 37 Lubuk Gambir Kami terus mengembangkan sistem untuk memberikan pengalaman pengelolaan kuitansi yang lebih cepat, efisien, dan andal,dan ini Daftar Pembaruan Aplikasi, Silakan Baca Dulu:
+             <p class="text-xs text-gray-600 leading-relaxed font-medium">
+                 Selamat Datang! Kami telah memperbarui antarmuka dengan tema **3D Claymorphic Clay Edition**:
              </p>
              
              <div class="space-y-3">
-                 <!-- Poin Pembaruan 1 -->
-                 <div class="bg-blue-50/60 p-3 rounded-xl border border-blue-100 flex gap-3">
-                     <span class="text-lg">📥</span>
+                 <div class="bg-pink-50 p-3 rounded-2xl border border-[#FF69B4] flex gap-3 shadow-sm">
+                     <span class="text-2xl">📊</span>
                      <div>
-                         <h5 class="text-xs font-bold text-blue-900">Download Semua PDF</h5>
-                         <p class="text-[10.5px] text-gray-600 mt-0.5 leading-normal">Unduh seluruh berkas kuitansi aktif sekaligus ke dalam satu dokumen PDF multi-halaman secara cepat.</p>
+                         <h5 class="text-xs font-bold text-pink-900">Grafik Pengeluaran Bulanan</h5>
+                         <p class="text-[10.5px] text-pink-700 mt-0.5 leading-normal">Visualisasi data pengeluaran bulanan yang interaktif langsung pada Beranda.</p>
                      </div>
                  </div>
-                 <!-- Poin Pembaruan 2 -->
-                 <div class="bg-yellow-50/60 p-3 rounded-xl border border-yellow-100 flex gap-3">
-                     <span class="text-lg">🗄️</span>
+                 <div class="bg-pink-100/50 p-3 rounded-2xl border border-pink-300 flex gap-3 shadow-sm">
+                     <span class="text-2xl">📥</span>
                      <div>
-                         <h5 class="text-xs font-bold text-yellow-900">Pindahkan Ke Arsip</h5>
-                         <p class="text-[10.5px] text-gray-600 mt-0.5 leading-normal">Kelola transisi tahun anggaran baru dengan mudah. Arsipkan data lama secara otomatis dengan penyaring tahun, INFORMASI : Kalau Sudah Pergantian Tahun Silakan Klik Tombol Pindahkan ke Aprsip Pada Laporan Kuitansi.</p>
-                     </div>
-                </div>
-                 <!-- Poin Pembaruan 3 -->
-                 <div class="bg-Red-50/60 p-3 rounded-xl border border-yellow-100 flex gap-3">
-                     <span class="text-lg">🗄️</span>
-                     <div>
-                         <h5 class="text-xs font-bold text-yellow-900">Layar Penuh</h5>
-                         <p class="text-[10.5px] text-gray-600 mt-0.5 leading-normal">Kamu Bisa Mengklik Layar Penuh Kanan Atas, Supaya Bisa  menampilkan konten agar mengisi seluruh area layar.</p>
+                         <h5 class="text-xs font-bold text-pink-900">Download Semua & Arsip</h5>
+                         <p class="text-[10.5px] text-pink-700 mt-0.5 leading-normal">Unduh PDF massal dan arsipkan kuitansi sesuai penyaring tahun.</p>
                      </div>
                  </div>
              </div>
              
-             <button onclick="closeUpdateModal()" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2.5 rounded-xl text-xs transition active:scale-95 shadow-md">
-                 Selesai & Lanjutkan
+             <button onclick="closeUpdateModal()" class="w-full btn-3d-pink font-extrabold py-3 rounded-2xl text-xs transition uppercase tracking-wider">
+                 Selesai & Lanjutkan 🚀
              </button>
          </div>
     </div>
 
-    <!-- Custom Confirmation & Alert Modal -->
-    <div id="custom-confirm-modal" class="fixed inset-0 z-[300] bg-black/60 flex items-center justify-center p-4 hidden">
-         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden p-6 space-y-4 transform transition-all duration-300">
-             <div class="flex items-center space-x-3">
-                 <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xl font-bold" id="confirm-icon">ℹ️</div>
-                 <h4 id="confirm-title" class="text-lg font-bold text-gray-900">Konfirmasi</h4>
+    <!-- Custom Confirmation Modal -->
+    <div id="custom-confirm-modal" class="fixed inset-0 z-[300] bg-pink-950/50 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden p-6 space-y-4 border-4 border-[#FF1493] glossy-panel relative">
+             <!-- Mascot 3D Anime Photo added to top-right corner -->
+             <div class="absolute -top-3 -right-2 w-20 md:w-24 pointer-events-none opacity-90 clay-character-static z-10 transform rotate-12">
+                 <img src="https://iili.io/nwbxUuV.png" alt="Mascot 3D Modal" class="w-full h-auto object-contain">
              </div>
-             <p id="confirm-message" class="text-sm text-gray-600 leading-relaxed">Apakah Anda yakin ingin melanjutkan tindakan ini?</p>
-             <div class="flex justify-end space-x-3 pt-2">
-                 <button id="confirm-cancel" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl text-sm font-medium transition active:scale-95">Batal</button>
-                 <button id="confirm-ok" class="px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-xl text-sm font-bold transition active:scale-95">Ya, Lanjutkan</button>
+
+             <div class="flex items-center space-x-3 relative z-20 pr-12">
+                 <div class="w-12 h-12 rounded-2xl bg-pink-50 flex items-center justify-center text-pink-600 text-2xl font-bold shadow-sm flex-shrink-0" id="confirm-icon">ℹ️</div>
+                 <h4 id="confirm-title" class="text-lg font-extrabold text-pink-950">Konfirmasi</h4>
+             </div>
+             <p id="confirm-message" class="text-sm text-gray-600 leading-relaxed font-medium relative z-20">Apakah Anda yakin ingin melanjutkan tindakan ini?</p>
+             <div class="flex justify-end space-x-3 pt-2 relative z-20">
+                 <button id="confirm-cancel" class="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-bold transition active:scale-95">Batal</button>
+                 <button id="confirm-ok" class="px-5 py-2.5 btn-3d-pink rounded-xl text-xs font-extrabold transition uppercase">Ya, Lanjutkan</button>
              </div>
          </div>
     </div>
 
-    <!-- Login Section -->
-    <div id="login-screen" class="fixed inset-0 z-[100] bg-blue-700 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xs overflow-hidden transform transition-all">
-            <div class="p-8">
-                <div class="text-center mb-8">
-                    <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full mb-4 shadow-sm border border-gray-100 p-2">
-                        <img src="https://iili.io/BsufuV4.jpg" alt="Logo Aplikasi" class="w-16 h-16 object-contain rounded-full">
-                    </div>
-                    <h2 class="text-xl font-bold text-gray-800">MANAJEMEN BOSP</h2>
-                    <p class="text-gray-500 text-xs">SDN 37 Lubuk Gambir</p>
+    <!-- Claymorphic 3D Login Screen -->
+    <div id="login-screen" class="fixed inset-0 z-[100] bg-gradient-to-br from-[#FFA0D2] via-[#FF1493] to-[#8B0042] flex items-center justify-center p-4 overflow-y-auto">
+        <div class="w-full max-w-[290px] relative my-auto">
+            <div class="absolute -top-6 -left-6 w-16 h-16 bg-pink-300/40 rounded-full blur-lg"></div>
+            <div class="absolute -bottom-6 -right-6 w-20 h-20 bg-purple-400/30 rounded-full blur-xl"></div>
+
+            <div class="clay-bg-container p-4 relative pt-14">
+                <div class="absolute -top-12 left-1/2 transform -translate-x-1/2 w-36 z-20 pointer-events-none clay-character-static">
+                    <img src="https://iili.io/nwbxUuV.png" alt="3D Character Peek-a-boo" class="w-full h-auto object-contain">
                 </div>
-                
-                <form id="login-form" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1 uppercase tracking-wider">Username</label>
-                        <input type="text" id="username_input" 
-                               class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm">
+
+                <div class="clay-card p-4 pt-8 relative z-10">
+                    <div class="text-center mb-4">
+                        <div class="inline-flex items-center justify-center w-12 h-12 bg-white rounded-xl mb-1.5 shadow-sm border border-pink-200 p-1 transition-transform">
+                            <img src="https://iili.io/BsufuV4.jpg" alt="Logo Sekolah" class="w-full h-full object-contain rounded-lg">
+                        </div>
+                        <h2 class="text-lg font-black text-pink-950 tracking-tight">Selamat Datang! 💕</h2>
+                        <p class="text-pink-600 font-bold text-[10px] mt-0.5">BOS SDN 37 Lubuk Gambir</p>
                     </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1 uppercase tracking-wider">Kata Sandi</label>
-                        <input type="password" id="password_input" 
-                               class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm">
-                    </div>
-                    <button type="submit" class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 rounded-xl shadow-lg transform active:scale-95 transition-all text-sm">
-                        Masuk 
-                    </button>
-                    <p class="text-[9px] text-center text-gray-400 mt-2 uppercase">© Hak Cipta UPT SDN 37 Lubuk Gambir</p>
-                </form>
+                    
+                    <form id="login-form" class="space-y-3">
+                        <div>
+                            <label class="block text-[9.5px] font-extrabold text-pink-900 mb-1 uppercase tracking-wider pl-1">
+                                Username
+                            </label>
+                            <div class="clay-input-wrapper flex items-center px-2.5 py-0.5">
+                                <span class="text-pink-500 text-sm mr-2 select-none">👤</span>
+                                <input type="text" id="username_input" placeholder="Username..." 
+                                       class="w-full py-1.5 bg-transparent text-xs font-bold text-pink-950 placeholder-pink-300 focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-[9.5px] font-extrabold text-pink-900 mb-1 uppercase tracking-wider pl-1">
+                                Kata Sandi
+                            </label>
+                            <div class="clay-input-wrapper flex items-center px-2.5 py-0.5">
+                                <span class="text-pink-500 text-sm mr-2 select-none">🔒</span>
+                                <input type="password" id="password_input" placeholder="••••••••" 
+                                       class="w-full py-1.5 bg-transparent text-xs font-bold text-pink-950 placeholder-pink-300 focus:outline-none">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full btn-3d-pink font-extrabold py-2.5 rounded-xl text-[11px] uppercase tracking-wider mt-3 flex items-center justify-center gap-1.5">
+                            <span>Masuk</span>
+                            <span class="text-sm">💖</span>
+                        </button>
+                        
+                        <div class="pt-1 text-center">
+                            <span class="inline-block bg-pink-100/80 text-pink-700 font-extrabold text-[8px] px-2.5 py-0.5 rounded-full border border-pink-200 uppercase tracking-widest">
+                                © Hak Cipta UPT SDN 37 Lubuk Gambir
+                            </span>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Sidebar -->
-    <aside id="main-sidebar" class="w-64 bg-blue-900 text-white flex-shrink-0 hidden flex flex-col">
-        <div class="p-6 border-b border-blue-700">
-            <div class="flex items-center justify-center mb-4">
-                <div class="bg-white p-1 rounded-lg shadow-sm">
-                    <img src="https://iili.io/BsufuV4.jpg" alt="Logo Nav" class="w-12 h-12 object-contain rounded-md">
+    <aside id="main-sidebar" class="w-64 bg-gradient-to-b from-[#8B0042] via-[#5C002B] to-[#3B001B] text-white flex-shrink-0 hidden flex flex-col shadow-2xl border-r-2 border-[#C71585]">
+        <div class="p-6 border-b border-[#C71585]/60 bg-black/10">
+            <div class="flex items-center justify-center mb-3">
+                <div class="bg-white p-1.5 rounded-2xl shadow-lg border-2 border-[#FF1493] transform hover:scale-105 transition">
+                    <img src="https://iili.io/BsufuV4.jpg" alt="Logo Nav" class="w-12 h-12 object-contain rounded-xl">
                 </div>
             </div>
-            <div class="flex items-center justify-center text-[10px] text-blue-300 uppercase tracking-widest font-semibold">
-                <span id="cloud-indicator" class="w-2 h-2 bg-yellow-400 rounded-full mr-2"></span> 
-                <span id="cloud-text">Aktif</span>
+            <div class="flex items-center justify-center text-[10px] text-pink-200 uppercase tracking-widest font-extrabold bg-pink-950/60 py-1 px-3 rounded-full border border-pink-500/30">
+                <span id="cloud-indicator" class="w-2.5 h-2.5 bg-yellow-400 rounded-full mr-2 shadow-sm animate-pulse"></span> 
+                <span id="cloud-text">Cloud Hot Pink 3D</span>
             </div>
         </div>
-        <nav class="mt-4 px-2 space-y-1 flex-1 overflow-y-auto">
-            <button onclick="showPage('beranda')" id="nav-beranda" class="w-full text-left px-4 py-3 rounded transition hover:bg-blue-800 flex items-center">
-                <span class="mr-3">🏠</span> Beranda
+        <nav class="mt-4 px-3 space-y-2 flex-1 overflow-y-auto">
+            <button onclick="showPage('beranda')" id="nav-beranda" class="w-full text-left px-4 py-3 rounded-2xl transition hover:bg-pink-800/40 flex items-center font-bold text-sm text-pink-100 shadow-sm border border-transparent">
+                <span class="mr-3 text-lg">🏠</span> Beranda
             </button>
-            <button onclick="showPage('penanggung-jawab')" id="nav-penanggung-jawab" class="w-full text-left px-4 py-3 rounded transition hover:bg-blue-800 flex items-center">
-                <span class="mr-3">👨‍💼</span> Penanggung Jawab
+            <button onclick="showPage('penanggung-jawab')" id="nav-penanggung-jawab" class="w-full text-left px-4 py-3 rounded-2xl transition hover:bg-pink-800/40 flex items-center font-bold text-sm text-pink-100 shadow-sm border border-transparent">
+                <span class="mr-3 text-lg">👨‍💼</span> Pejabat PJ
             </button>
-            <button onclick="showPage('kuitansi')" id="nav-kuitansi" class="w-full text-left px-4 py-3 rounded transition hover:bg-blue-800 flex items-center">
-                <span class="mr-3">📑</span> Form Kuitansi
+            <button onclick="showPage('kuitansi')" id="nav-kuitansi" class="w-full text-left px-4 py-3 rounded-2xl transition hover:bg-pink-800/40 flex items-center font-bold text-sm text-pink-100 shadow-sm border border-transparent">
+                <span class="mr-3 text-lg">📑</span> Form Kuitansi
             </button>
-            <button onclick="showPage('laporan')" id="nav-laporan" class="w-full text-left px-4 py-3 rounded transition hover:bg-blue-800 flex items-center">
-                <span class="mr-3">📋</span> Laporan Kuitansi
+            <button onclick="showPage('laporan')" id="nav-laporan" class="w-full text-left px-4 py-3 rounded-2xl transition hover:bg-pink-800/40 flex items-center font-bold text-sm text-pink-100 shadow-sm border border-transparent">
+                <span class="mr-3 text-lg">📋</span> Laporan Kuitansi
             </button>
-            <button onclick="showPage('arsip')" id="nav-arsip" class="w-full text-left px-4 py-3 rounded transition hover:bg-blue-800 flex items-center">
-                <span class="mr-3">🗄️</span> Arsip Kuitansi
+            <button onclick="showPage('arsip')" id="nav-arsip" class="w-full text-left px-4 py-3 rounded-2xl transition hover:bg-pink-800/40 flex items-center font-bold text-sm text-pink-100 shadow-sm border border-transparent">
+                <span class="mr-3 text-lg">🗄️</span> Arsip Kuitansi
             </button>
-            <button onclick="syncDataFromCloud()" class="w-full text-left px-4 py-3 rounded transition hover:bg-blue-800 flex items-center text-blue-300 border-t border-blue-800 mt-4 pt-4">
-                <span class="mr-3">🔄</span> Tarik Data
+            <button onclick="syncDataFromCloud()" class="w-full text-left px-4 py-3 rounded-2xl transition hover:bg-pink-800/40 flex items-center font-bold text-xs text-pink-200 border-t border-pink-800/60 mt-4 pt-4">
+                <span class="mr-3 text-base">🔄</span> Refresh Data
             </button>
         </nav>
-        <div class="p-4 bg-blue-950/50 text-[10px] text-blue-400 text-center border-t border-blue-800">
-            Sistem Manajemen BOS SDN 37
+        <div class="p-4 bg-black/20 text-[10px] text-pink-200 text-center border-t border-[#C71585]/60 font-semibold">
+            BOS SDN 37 - Pink
         </div>
     </aside>
 
-    <main id="main-content" class="flex-1 flex flex-col overflow-hidden hidden">
-        <header class="bg-white shadow-sm px-8 py-4 flex justify-between items-center">
-            <h2 id="page-title" class="text-lg font-semibold text-gray-700">Beranda</h2>
-            <div class="flex items-center gap-4">
-                <!-- Tombol Layar Penuh (Dapat berganti tulisan/status) -->
-                <button id="fullscreen-btn" onclick="toggleFullscreen()" class="text-sm font-bold text-blue-700 hover:bg-blue-50 px-3 py-1 rounded transition-colors flex items-center gap-1">
+    <!-- Main Content View -->
+    <main id="main-content" class="flex-1 flex flex-col overflow-hidden hidden bg-transparent">
+        <header class="bg-white/80 backdrop-blur-md shadow-md px-8 py-4 flex justify-between items-center border-b-2 border-[#FF1493]">
+            <h2 id="page-title" class="text-xl font-extrabold text-pink-950 tracking-wide">BERANDA</h2>
+            <div class="flex items-center gap-3">
+                <button id="fullscreen-btn" onclick="toggleFullscreen()" class="btn-3d-pink text-xs font-extrabold px-4 py-2 rounded-xl flex items-center gap-1.5 uppercase">
                     <span>📺</span> Layar Penuh
                 </button>
-                <button onclick="logout()" class="text-sm font-bold text-red-600 hover:bg-red-50 px-3 py-1 rounded transition-colors">Logout</button>
+                <button onclick="logout()" class="btn-3d-red text-xs font-extrabold px-4 py-2 rounded-xl uppercase">Logout</button>
             </div>
         </header>
 
         <div class="flex-1 overflow-y-auto p-8" id="content-area">
-            <!-- Page Beranda -->
+            <!-- Beranda Page with Integrated Expenditure Chart -->
             <section id="page-beranda" class="space-y-6">
-                <div class="bg-blue-600 rounded-xl p-8 text-white shadow-lg bg-gradient-to-r from-blue-700 to-blue-500">
-                    <h1 class="text-3xl font-bold mb-2">Selamat Datang</h1>
-                    <p class="text-blue-100 opacity-90">Sistem Manajemen BOS SDN 37 Lubuk Gambir.</p>
+                <div class="card-3d bg-gradient-to-r from-[#FF69B4] via-[#FF1493] to-[#C71585] rounded-3xl p-8 text-white shadow-xl border-2 border-white glossy-panel">
+                    <h1 class="text-3xl font-extrabold mb-2 drop-shadow-md">Selamat Datang! 🌺</h1>
+                    <p class="text-pink-100 font-semibold drop-shadow-sm">Sistem Manajemen BOS SDN 37 Lubuk Gambir.</p>
                 </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-blue-500">
-                        <p class="text-sm text-gray-500 font-medium uppercase">Kuitansi Tersimpan</p>
-                        <p id="stat-total" class="text-3xl font-bold text-gray-800">0</p>
+                    <div class="card-3d p-6 border-l-8 border-l-[#FF1493] relative overflow-hidden">
+                        <div class="absolute -bottom-2 -right-2 w-20 md:w-24 pointer-events-none opacity-85 clay-character-static z-10 transform -rotate-6">
+                            <img src="https://iili.io/nwbxUuV.png" alt="Mascot Stat Total" class="w-full h-auto object-contain">
+                        </div>
+                        <p class="text-xs text-pink-600 font-bold uppercase tracking-wider relative z-20">Kuitansi Tersimpan</p>
+                        <p id="stat-total" class="text-4xl font-extrabold text-pink-950 mt-1 relative z-20">0</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-green-500">
-                        <p class="text-sm text-gray-500 font-medium uppercase">Total Pengeluaran</p>
-                        <p id="stat-amount" class="text-3xl font-bold text-gray-800">Rp 0</p>
+                    <div class="card-3d p-6 border-l-8 border-l-[#C71585] relative overflow-hidden">
+                        <div class="absolute -bottom-2 -right-2 w-20 md:w-24 pointer-events-none opacity-85 clay-character-static z-10 transform rotate-6">
+                            <img src="https://iili.io/nwbxUuV.png" alt="Mascot Stat Amount" class="w-full h-auto object-contain">
+                        </div>
+                        <p class="text-xs text-pink-600 font-bold uppercase tracking-wider relative z-20">Total Pengeluaran</p>
+                        <p id="stat-amount" class="text-4xl font-extrabold text-pink-950 mt-1 relative z-20">Rp 0</p>
+                    </div>
+                </div>
+
+                <!-- Graphic Chart Section Below Stat Cards -->
+                <div class="card-3d p-6 border-2 border-[#FF69B4] relative overflow-hidden">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3 border-b-2 border-pink-100 pb-4">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-2xl">📈</span>
+                                <h3 class="text-lg font-extrabold text-pink-950 tracking-wide">Grafik Pengeluaran Bulanan</h3>
+                            </div>
+                            <p class="text-xs text-pink-600 font-semibold mt-0.5">Visualisasi total dana kuitansi yang terpakai per bulan</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-pink-800">Tahun:</span>
+                            <select id="chart-year-filter" onchange="renderExpenditureChart()" class="input-3d px-3 py-1.5 text-xs font-bold text-pink-950 bg-white">
+                                <option value="ALL">Semua Tahun</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Custom HTML5 Canvas Chart Container -->
+                    <div class="w-full h-72 sm:h-80 relative flex items-center justify-center">
+                        <canvas id="expenditureChart" class="w-full h-full block"></canvas>
+                    </div>
+
+                    <div id="chart-legend" class="mt-4 pt-3 border-t border-pink-100 flex flex-wrap justify-between items-center text-xs font-bold text-pink-900 gap-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3.5 h-3.5 rounded-md bg-gradient-to-t from-[#FF1493] to-[#FF69B4] inline-block shadow-sm"></span>
+                            <span>Pengeluaran Bulanan (Rp)</span>
+                        </div>
+                        <div id="chart-peak-info" class="text-pink-700 italic font-medium">
+                            Status: Memuat data grafik...
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Page Laporan -->
-            <section id="page-laporan" class="hidden space-y-4">
-                <!-- Toolbar Laporan -->
-                <div class="bg-white p-4 rounded-lg shadow-sm border flex flex-col md:flex-row gap-4 justify-between items-end md:items-center">
+            <!-- Laporan Page -->
+            <section id="page-laporan" class="hidden space-y-5">
+                <div class="card-3d p-5 flex flex-col md:flex-row gap-4 justify-between items-end md:items-center">
                     <div class="w-full md:w-1/3">
-                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Filter Nomor BKU</label>
-                        <input type="text" id="bku_search" oninput="renderLaporan()" placeholder="Cari nomor BKU..." class="w-full px-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500">
+                        <label class="block text-[10px] font-extrabold text-pink-900 uppercase mb-1">Filter Nomor BKU</label>
+                        <input type="text" id="bku_search" oninput="currentPageLaporan=1; renderLaporan();" placeholder="Cari nomor BKU..." class="w-full px-3 py-2 input-3d text-sm font-semibold">
+                    </div>
+                    <div class="w-full md:w-1/6">
+                        <label class="block text-[10px] font-extrabold text-pink-900 uppercase mb-1">Tampilkan Data</label>
+                        <select id="pageSizeLaporan" onchange="currentPageLaporan=1; renderLaporan();" class="w-full px-3 py-2 input-3d text-xs font-bold text-pink-950 bg-white">
+                            <option value="10" selected>10 Data</option>
+                            <option value="20">20 Data</option>
+                            <option value="30">30 Data</option>
+                            <option value="50">50 Data</option>
+                            <option value="100">100 Data</option>
+                            <option value="200">200 Data</option>
+                            <option value="500">500 Data</option>
+                        </select>
                     </div>
                     <div class="grid grid-cols-4 gap-2">
                         <div>
-                            <label class="block text-[8px] font-bold text-gray-500 uppercase text-center">M.Atas</label>
-                            <input type="number" id="m_top" value="15" class="w-full p-1 text-center border rounded text-xs">
+                            <label class="block text-[8px] font-extrabold text-pink-900 uppercase text-center">M.Atas</label>
+                            <input type="number" id="m_top" value="15" class="w-full p-1.5 text-center input-3d text-xs font-bold">
                         </div>
                         <div>
-                            <label class="block text-[8px] font-bold text-gray-500 uppercase text-center">M.Bawah</label>
-                            <input type="number" id="m_bottom" value="15" class="w-full p-1 text-center border rounded text-xs">
+                            <label class="block text-[8px] font-extrabold text-pink-900 uppercase text-center">M.Bawah</label>
+                            <input type="number" id="m_bottom" value="15" class="w-full p-1.5 text-center input-3d text-xs font-bold">
                         </div>
                         <div>
-                            <label class="block text-[8px] font-bold text-gray-500 uppercase text-center">M.Kiri</label>
-                            <input type="number" id="m_left" value="25" class="w-full p-1 text-center border rounded text-xs">
+                            <label class="block text-[8px] font-extrabold text-pink-900 uppercase text-center">M.Kiri</label>
+                            <input type="number" id="m_left" value="25" class="w-full p-1.5 text-center input-3d text-xs font-bold">
                         </div>
                         <div>
-                            <label class="block text-[8px] font-bold text-gray-500 uppercase text-center">M.Kanan</label>
-                            <input type="number" id="m_right" value="20" class="w-full p-1 text-center border rounded text-xs">
+                            <label class="block text-[8px] font-extrabold text-pink-900 uppercase text-center">M.Kanan</label>
+                            <input type="number" id="m_right" value="20" class="w-full p-1.5 text-center input-3d text-xs font-bold">
                         </div>
                     </div>
                     <div class="flex space-x-2 flex-wrap gap-y-2">
-                         <a href="https://docs.google.com/spreadsheets/d/1k7d6IqRsgpMsQHxTEDhhCGGaZ8b1tJpX0ku9piYCki4/edit?usp=sharing" target="_blank" class="text-xs bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition font-bold flex items-center">Database</a>
-                         <button onclick="moveToArchive()" class="text-xs bg-yellow-600 text-white px-3 py-2 rounded-lg hover:bg-yellow-700 transition font-bold">Pindahkan Ke Arsip</button>
-                         <button onclick="deleteAllKuitansi()" class="text-xs bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition font-bold">Hapus Semua</button>
-                         <button onclick="downloadAllPDF()" class="text-xs bg-indigo-600 text-white px-3 py-2 rounded-lg hover:bg-indigo-700 transition font-bold">Download Semua</button>
-                         <button onclick="syncDataFromCloud()" class="text-xs bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition font-bold">Update Data</button>
+                         <a href="https://docs.google.com/spreadsheets/d/1k7d6IqRsgpMsQHxTEDhhCGGaZ8b1tJpX0ku9piYCki4/edit?usp=sharing" target="_blank" class="btn-3d-green text-xs px-3 py-2 rounded-xl font-extrabold uppercase flex items-center">Database</a>
+                         <button onclick="moveToArchive()" class="btn-3d-yellow text-xs px-3 py-2 rounded-xl font-extrabold uppercase">Pindahkan Ke Arsip</button>
+                         <button onclick="deleteAllKuitansi()" class="btn-3d-red text-xs px-3 py-2 rounded-xl font-extrabold uppercase">Hapus Semua</button>
+                         <button onclick="downloadAllPDF()" class="btn-3d-purple text-xs px-3 py-2 rounded-xl font-extrabold uppercase">Download Semua</button>
+                         <button onclick="syncDataFromCloud()" class="btn-3d-pink text-xs px-3 py-2 rounded-xl font-extrabold uppercase">Update Data</button>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-lg shadow-xl overflow-hidden border border-gray-100">
+                <div class="card-3d overflow-hidden">
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead class="bg-blue-900 text-white">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-gradient-to-r from-[#C71585] to-[#8B0042] text-white">
                                 <tr>
-                                    <th class="px-6 py-4 text-xs font-bold uppercase">BKU</th>
-                                    <th class="px-6 py-4 text-xs font-bold uppercase">Tanggal</th>
-                                    <th class="px-6 py-4 text-xs font-bold uppercase">Penerima</th>
-                                    <th class="px-6 py-4 text-xs font-bold uppercase">Jumlah</th>
-                                    <th class="px-6 py-4 text-xs font-bold uppercase text-center">Opsi</th>
+                                    <th class="px-6 py-4 text-xs font-extrabold uppercase tracking-wider">BKU</th>
+                                    <th class="px-6 py-4 text-xs font-extrabold uppercase tracking-wider">Tanggal</th>
+                                    <th class="px-6 py-4 text-xs font-extrabold uppercase tracking-wider">Penerima</th>
+                                    <th class="px-6 py-4 text-xs font-extrabold uppercase tracking-wider">Jumlah</th>
+                                    <th class="px-6 py-4 text-xs font-extrabold uppercase tracking-wider text-center">Opsi</th>
                                 </tr>
                             </thead>
-                            <tbody id="laporan-body" class="divide-y divide-gray-100">
-                                <tr><td colspan="5" class="px-6 py-10 text-center text-gray-400 italic">Memuat data dari cloud...</td></tr>
+                            <tbody id="laporan-body" class="divide-y divide-pink-100 font-medium text-sm">
+                                <tr><td colspan="5" class="px-6 py-10 text-center text-pink-400 italic">Memuat data dari cloud...</td></tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="px-6 py-4 bg-pink-50/50 border-t border-pink-100 flex flex-col sm:flex-row justify-between items-center gap-3">
+                        <span id="laporan-page-info" class="text-xs font-bold text-pink-900">Menampilkan 0-0 dari 0 data</span>
+                        <div id="laporan-pagination" class="flex flex-wrap items-center gap-1.5"></div>
                     </div>
                 </div>
             </section>
 
-            <!-- Page Arsip Kuitansi -->
-            <section id="page-arsip" class="hidden space-y-4">
-                <!-- Toolbar Arsip -->
-                <div class="bg-white p-4 rounded-lg shadow-sm border flex flex-col md:flex-row gap-4 justify-between items-end md:items-center">
+            <!-- Arsip Page -->
+            <section id="page-arsip" class="hidden space-y-5">
+                <div class="card-3d p-5 flex flex-col md:flex-row gap-4 justify-between items-end md:items-center">
                     <div class="w-full md:w-1/3">
-                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Filter Nomor BKU (Arsip)</label>
-                        <input type="text" id="bku_arsip_search" oninput="renderArsip()" placeholder="Cari nomor BKU di arsip..." class="w-full px-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500">
+                        <label class="block text-[10px] font-extrabold text-pink-900 uppercase mb-1">Filter Nomor BKU (Arsip)</label>
+                        <input type="text" id="bku_arsip_search" oninput="currentPageArsip=1; renderArsip();" placeholder="Cari nomor BKU di arsip..." class="w-full px-3 py-2 input-3d text-sm font-semibold">
                     </div>
                     <div class="w-full md:w-1/4">
-                        <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Filter Tahun</label>
-                        <select id="arsip_tahun_filter" onchange="renderArsip()" class="w-full px-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500 bg-white font-medium">
+                        <label class="block text-[10px] font-extrabold text-pink-900 uppercase mb-1">Filter Tahun</label>
+                        <select id="arsip_tahun_filter" onchange="currentPageArsip=1; renderArsip();" class="w-full px-3 py-2 input-3d text-sm font-bold bg-white text-pink-950">
                             <option value="Semua">Semua Tahun</option>
                         </select>
                     </div>
+                    <div class="w-full md:w-1/6">
+                        <label class="block text-[10px] font-extrabold text-pink-900 uppercase mb-1">Tampilkan Data</label>
+                        <select id="pageSizeArsip" onchange="currentPageArsip=1; renderArsip();" class="w-full px-3 py-2 input-3d text-xs font-bold text-pink-950 bg-white">
+                            <option value="10" selected>10 Data</option>
+                            <option value="20">20 Data</option>
+                            <option value="30">30 Data</option>
+                            <option value="50">50 Data</option>
+                            <option value="100">100 Data</option>
+                            <option value="200">200 Data</option>
+                            <option value="500">500 Data</option>
+                        </select>
+                    </div>
                     <div class="flex space-x-2">
-                         <button onclick="syncDataFromCloud()" class="text-xs bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition font-bold">Update Data</button>
+                         <button onclick="syncDataFromCloud()" class="btn-3d-pink text-xs px-4 py-2 rounded-xl font-extrabold uppercase">Update Data</button>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-lg shadow-xl overflow-hidden border border-gray-100">
+                <div class="card-3d overflow-hidden">
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead class="bg-gray-800 text-white">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-gradient-to-r from-[#8B0042] to-[#5C002B] text-white">
                                 <tr>
-                                    <th class="px-6 py-4 text-xs font-bold uppercase">BKU</th>
-                                    <th class="px-6 py-4 text-xs font-bold uppercase">Tanggal</th>
-                                    <th class="px-6 py-4 text-xs font-bold uppercase">Penerima</th>
-                                    <th class="px-6 py-4 text-xs font-bold uppercase">Jumlah</th>
-                                    <th class="px-6 py-4 text-xs font-bold uppercase text-center">Opsi</th>
+                                    <th class="px-6 py-4 text-xs font-extrabold uppercase tracking-wider">BKU</th>
+                                    <th class="px-6 py-4 text-xs font-extrabold uppercase tracking-wider">Tanggal</th>
+                                    <th class="px-6 py-4 text-xs font-extrabold uppercase tracking-wider">Penerima</th>
+                                    <th class="px-6 py-4 text-xs font-extrabold uppercase tracking-wider">Jumlah</th>
+                                    <th class="px-6 py-4 text-xs font-extrabold uppercase tracking-wider text-center">Opsi</th>
                                 </tr>
                             </thead>
-                            <tbody id="arsip-body" class="divide-y divide-gray-100">
-                                <tr><td colspan="5" class="px-6 py-10 text-center text-gray-400 italic">Memuat data arsip...</td></tr>
+                            <tbody id="arsip-body" class="divide-y divide-pink-100 font-medium text-sm">
+                                <tr><td colspan="5" class="px-6 py-10 text-center text-pink-400 italic">Memuat data arsip...</td></tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="px-6 py-4 bg-pink-50/50 border-t border-pink-100 flex flex-col sm:flex-row justify-between items-center gap-3">
+                        <span id="arsip-page-info" class="text-xs font-bold text-pink-900">Menampilkan 0-0 dari 0 data</span>
+                        <div id="arsip-pagination" class="flex flex-wrap items-center gap-1.5"></div>
                     </div>
                 </div>
             </section>
             
+            <!-- Penanggung Jawab Page -->
             <section id="page-penanggung-jawab" class="hidden">
-                 <div class="bg-white rounded-xl shadow-lg p-8 max-w-2xl mx-auto border border-gray-100">
-                    <h3 class="text-xl font-bold mb-6 text-blue-900 border-b pb-4">Data Pejabat Penandatangan</h3>
-                    <form id="form-pj" class="space-y-5">
+                 <div class="card-3d p-8 max-w-2xl mx-auto border-2 border-pink-200 relative overflow-hidden">
+                    <div class="absolute -bottom-2 -right-2 w-28 md:w-36 pointer-events-none opacity-90 clay-character-static z-10">
+                        <img src="https://iili.io/nwbxUuV.png" alt="Mascot 3D PJ" class="w-full h-auto object-contain">
+                    </div>
+
+                    <h3 class="text-xl font-extrabold mb-6 text-pink-950 border-b-2 border-pink-200 pb-4 relative z-20">Data Pejabat Penandatangan</h3>
+                    <form id="form-pj" class="space-y-5 relative z-20">
                         <div class="grid grid-cols-1 gap-4">
                             <div>
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider">Nama Kepala Sekolah</label>
-                                <input type="text" id="ks_nama" class="mt-1 block w-full border rounded-lg p-3 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                                <label class="block text-xs font-extrabold text-pink-900 uppercase tracking-wider">Nama Kepala Sekolah</label>
+                                <input type="text" id="ks_nama" class="mt-1 block w-full input-3d p-3 font-semibold">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider">NIP Kepala Sekolah</label>
-                                <input type="text" id="ks_nip" class="mt-1 block w-full border rounded-lg p-3 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                                <label class="block text-xs font-extrabold text-pink-900 uppercase tracking-wider">NIP Kepala Sekolah</label>
+                                <input type="text" id="ks_nip" class="mt-1 block w-full input-3d p-3 font-semibold">
                             </div>
-                            <div class="border-t pt-4 mt-2">
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider">Nama Bendahara</label>
-                                <input type="text" id="bd_nama" class="mt-1 block w-full border rounded-lg p-3 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                            <div class="border-t border-pink-200 pt-4 mt-2">
+                                <label class="block text-xs font-extrabold text-pink-900 uppercase tracking-wider">Nama Bendahara</label>
+                                <input type="text" id="bd_nama" class="mt-1 block w-full input-3d p-3 font-semibold">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider">NIP Bendahara</label>
-                                <input type="text" id="bd_nip" class="mt-1 block w-full border rounded-lg p-3 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                                <label class="block text-xs font-extrabold text-pink-900 uppercase tracking-wider">NIP Bendahara</label>
+                                <input type="text" id="bd_nip" class="mt-1 block w-full input-3d p-3 font-semibold">
                             </div>
                         </div>
-                        <button type="button" onclick="savePJ()" class="w-full bg-blue-700 text-white py-3 rounded-xl font-bold hover:bg-blue-800 shadow-lg transform active:scale-95 transition-all mt-4">Simpan</button>
+                        <div class="flex justify-start">
+                            <button type="button" onclick="savePJ()" class="w-full sm:w-2/3 md:w-1/2 btn-3d-pink py-3 rounded-2xl font-extrabold uppercase tracking-wider text-xs mt-4">Simpan✨</button>
+                        </div>
                     </form>
                  </div>
             </section>
 
+            <!-- Kuitansi Form Page -->
             <section id="page-kuitansi" class="hidden">
-                 <div class="bg-white rounded-lg shadow p-6 max-w-4xl mx-auto">
-                    <h3 class="text-xl font-semibold mb-6 text-blue-900 border-b pb-2">Buat Kuitansi Baru</h3>
-                    <form id="form-kuitansi" class="space-y-6">
+                 <div class="card-3d p-8 max-w-4xl mx-auto border-2 border-pink-200 relative overflow-hidden">
+                    <div class="absolute -top-3 -right-3 w-28 md:w-36 pointer-events-none opacity-90 clay-character-static z-10 transform rotate-12">
+                        <img src="https://iili.io/nwbxUuV.png" alt="Mascot 3D Form" class="w-full h-auto object-contain">
+                    </div>
+
+                    <h3 class="text-xl font-extrabold mb-6 text-pink-950 border-b-2 border-pink-200 pb-3 relative z-20">Buat Kuitansi Baru</h3>
+                    <form id="form-kuitansi" class="space-y-6 relative z-20">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Nomor BKU</label>
-                                <input type="text" id="bku_no" required class="mt-1 block w-full border rounded-md p-2">
+                                <label class="block text-xs font-extrabold text-pink-900 uppercase mb-1">Nomor BKU</label>
+                                <input type="text" id="bku_no" required class="w-full input-3d p-2.5 font-semibold">
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Kode Rekening</label>
-                                <input type="text" id="kode_rek" required class="mt-1 block w-full border rounded-md p-2">
+                                <label class="block text-xs font-extrabold text-pink-900 uppercase mb-1">Kode Rekening</label>
+                                <input type="text" id="kode_rek" required class="w-full input-3d p-2.5 font-semibold">
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Jumlah Uang (Rp)</label>
-                                <input type="number" id="jumlah_rp" required oninput="updateTerbilang()" class="mt-1 block w-full border rounded-md p-2">
+                                <label class="block text-xs font-extrabold text-pink-900 uppercase mb-1">Jumlah Uang (Rp)</label>
+                                <input type="number" id="jumlah_rp" required oninput="updateTerbilang()" class="w-full input-3d p-2.5 font-bold text-pink-950">
                             </div>
                             <div class="md:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700">Terbilang</label>
-                                <textarea id="terbilang" readonly rows="2" class="mt-1 block w-full border bg-gray-50 rounded-md p-2 italic"></textarea>
+                                <label class="block text-xs font-extrabold text-pink-900 uppercase mb-1">Terbilang</label>
+                                <textarea id="terbilang" readonly rows="2" class="w-full input-3d p-2.5 italic font-medium bg-pink-50/50"></textarea>
                             </div>
                             <div class="md:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700">Untuk Pembayaran</label>
-                                <textarea id="untuk" required rows="3" class="mt-1 block w-full border rounded-md p-2"></textarea>
+                                <label class="block text-xs font-extrabold text-pink-900 uppercase mb-1">Untuk Pembayaran</label>
+                                <textarea id="untuk" required rows="3" class="w-full input-3d p-2.5 font-medium"></textarea>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Penerima</label>
-                                <input type="text" id="penerima_nama" required class="mt-1 block w-full border rounded-md p-2">
+                                <label class="block text-xs font-extrabold text-pink-900 uppercase mb-1">Penerima</label>
+                                <input type="text" id="penerima_nama" required class="w-full input-3d p-2.5 font-semibold">
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Tanggal</label>
-                                <input type="date" id="tgl_kuitansi" required class="mt-1 block w-full border rounded-md p-2">
+                                <label class="block text-xs font-extrabold text-pink-900 uppercase mb-1">Tanggal</label>
+                                <input type="date" id="tgl_kuitansi" required class="w-full input-3d p-2.5 font-semibold">
                             </div>
                         </div>
                         
-                        <div class="border-t pt-4 mt-4 grid grid-cols-2 md:grid-cols-5 gap-2">
-                             <div class="col-span-full mb-2"><span class="text-xs font-bold text-gray-500 uppercase">Input Pajak (Opsional)</span></div>
-                             <input type="number" id="dpp" placeholder="DPP" class="border p-2 rounded text-sm">
-                             <input type="number" id="ppn" placeholder="PPN" class="border p-2 rounded text-sm">
-                             <input type="number" id="pph23" placeholder="PPh 23" class="border p-2 rounded text-sm">
-                             <input type="number" id="pph21" placeholder="PPh 21" class="border p-2 rounded text-sm">
-                             <input type="number" id="pjk_daerah" placeholder="Pjk Daer" class="border p-2 rounded text-sm">
+                        <div class="border-t border-pink-200 pt-4 mt-4 grid grid-cols-2 md:grid-cols-5 gap-2">
+                             <div class="col-span-full mb-1"><span class="text-xs font-extrabold text-pink-900 uppercase">Input Pajak (Opsional)</span></div>
+                             <input type="number" id="dpp" placeholder="DPP" class="input-3d p-2 text-xs font-semibold">
+                             <input type="number" id="ppn" placeholder="PPN" class="input-3d p-2 text-xs font-semibold">
+                             <input type="number" id="pph23" placeholder="PPh 23" class="input-3d p-2 text-xs font-semibold">
+                             <input type="number" id="pph21" placeholder="PPh 21" class="input-3d p-2 text-xs font-semibold">
+                             <input type="number" id="pjk_daerah" placeholder="Pjk Daer" class="input-3d p-2 text-xs font-semibold">
                         </div>
 
-                        <button type="button" onclick="saveKuitansi()" class="w-full bg-blue-700 text-white py-3 rounded-lg font-bold shadow-md hover:bg-blue-800 transition">Kirim</button>
+                        <button type="button" onclick="saveKuitansi()" class="w-full btn-3d-pink py-3.5 rounded-2xl font-extrabold uppercase tracking-wider text-xs">Kirim 📤</button>
                     </form>
                 </div>
             </section>
         </div>
     </main>
 
-    <div id="toast" class="fixed bottom-10 right-10 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-2xl opacity-0 transition-opacity pointer-events-none z-[110]"></div>
+    <div id="toast" class="fixed bottom-10 right-10 bg-pink-950 text-white px-6 py-3 rounded-2xl shadow-2xl opacity-0 transition-all duration-300 pointer-events-none z-[110] border-2 border-pink-300 font-bold text-xs"></div>
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8Hy2IuPGK29vlQ972O4MIfnr844Ro0Y06tLjSPm2eXylTCrumZXHrScZv_FuLFCvm/exec"; 
+        
         const LOGIN_CONFIG = { username: "SDN37", password: "12345" };
+
+        let currentPageLaporan = 1;
+        let currentPageArsip = 1;
 
         let appData = {
             pj: { ks_nama: '', ks_nip: '', bd_nama: '', bd_nip: '' },
@@ -386,6 +666,7 @@
         };
 
         const loader = document.getElementById('loading-overlay');
+        let loadingSafetyTimer = null;
 
         function openUpdateModal() {
             document.getElementById('update-info-modal').classList.remove('hidden');
@@ -395,7 +676,6 @@
             document.getElementById('update-info-modal').classList.add('hidden');
         }
 
-        // Fungsi toggle layar penuh untuk mendukung Laptop, Tablet, dan Smartphone
         function toggleFullscreen() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().catch(err => {
@@ -408,7 +688,6 @@
             }
         }
 
-        // Listener pendeteksi perubahan status layar penuh
         document.addEventListener('fullscreenchange', () => {
             const btn = document.getElementById('fullscreen-btn');
             if (btn) {
@@ -435,7 +714,6 @@
                 
                 cancelBtn.classList.add('hidden');
                 okBtn.textContent = "OK";
-                okBtn.className = "px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-xl text-sm font-bold transition active:scale-95";
                 
                 modal.classList.remove('hidden');
                 
@@ -443,7 +721,6 @@
                     modal.classList.add('hidden');
                     cancelBtn.classList.remove('hidden');
                     okBtn.textContent = "Ya, Lanjutkan";
-                    okBtn.className = "px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-xl text-sm font-bold transition active:scale-95";
                     okBtn.removeEventListener('click', handleOk);
                     resolve();
                 };
@@ -464,8 +741,6 @@
                 titleEl.textContent = title;
                 msgEl.textContent = message;
                 iconEl.textContent = icon;
-                
-                okBtn.className = "px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-bold transition active:scale-95";
                 
                 modal.classList.remove('hidden');
                 
@@ -506,10 +781,9 @@
                     const loadingTextEl = document.getElementById('loading-text');
                     showLoading(true);
 
-                    // Animasi persentase login profesional 1% s/d 100%
                     for (let percent = 1; percent <= 100; percent++) {
                         loadingTextEl.innerText = `Sedang Login, Harap tunggu... ${percent}%`;
-                        await new Promise(resolve => setTimeout(resolve, 15));
+                        await new Promise(resolve => setTimeout(resolve, 10));
                     }
 
                     appData.isLoggedIn = true;
@@ -517,11 +791,14 @@
                     showDashboard();
                     await syncDataFromCloud();
 
-                    // Kembalikan teks bawaan untuk pemrosesan lainnya
-                    loadingTextEl.innerText = "Sedang Proses";
+                    loadingTextEl.innerText = "Memproses Kuitansi...";
                 } else {
                     await customAlert('Username atau Kata Sandi Salah!', 'Login Gagal', '❌');
                 }
+            });
+
+            window.addEventListener('resize', () => {
+                if (appData.isLoggedIn) renderExpenditureChart();
             });
         });
 
@@ -531,12 +808,29 @@
             document.getElementById('main-content').classList.remove('hidden');
             showPage('beranda');
             
-            // Tampilkan Informasi Pembaruan di sini sesudah masuk ke Beranda
             openUpdateModal();
         }
 
+        // Guarantees loading overlay is closed safely and cannot get stuck endlessly
         function showLoading(show) {
-            if(loader) loader.classList.toggle('hidden', !show);
+            if (loadingSafetyTimer) {
+                clearTimeout(loadingSafetyTimer);
+                loadingSafetyTimer = null;
+            }
+
+            if (loader) {
+                loader.classList.toggle('hidden', !show);
+            }
+
+            if (show) {
+                // Safety Guard: Force hide loading overlay after 10 seconds timeout
+                loadingSafetyTimer = setTimeout(() => {
+                    if (loader && !loader.classList.contains('hidden')) {
+                        loader.classList.add('hidden');
+                        showToast('Waktu pemprosesan habis. Silakan coba lagi.');
+                    }
+                }, 10000);
+            }
         }
 
         async function syncDataFromCloud() {
@@ -544,6 +838,8 @@
             showLoading(true);
             try {
                 const response = await fetch(`${SCRIPT_URL}?t=${Date.now()}`);
+                if (!response.ok) throw new Error('Cloud Server Error');
+                
                 const cloudData = await response.json();
                 if (cloudData) {
                     appData.pj = cloudData.pj || appData.pj;
@@ -553,10 +849,26 @@
                     renderLaporan();
                     renderArsip();
                     updateStats();
+                    populateChartYears();
+                    renderExpenditureChart();
+                    
+                    const cloudIndicator = document.getElementById('cloud-indicator');
+                    const cloudText = document.getElementById('cloud-text');
+                    if(cloudIndicator) cloudIndicator.className = "w-2.5 h-2.5 bg-green-400 rounded-full mr-2 shadow-sm animate-pulse";
+                    if(cloudText) cloudText.innerText = "Terhubung";
                 }
             } catch (error) {
                 console.error('Cloud Sync Error:', error);
-                showToast('Gagal Sinkron Cloud');
+                showToast('Gagal Sinkron Cloud, Menggunakan Data Lokal');
+                
+                const cloudIndicator = document.getElementById('cloud-indicator');
+                const cloudText = document.getElementById('cloud-text');
+                if(cloudIndicator) cloudIndicator.className = "w-2.5 h-2.5 bg-red-500 rounded-full mr-2 shadow-sm";
+                if(cloudText) cloudText.innerText = "Cloud Terputus";
+
+                renderLaporan();
+                renderArsip();
+                updateStats();
             } finally {
                 showLoading(false);
             }
@@ -572,10 +884,9 @@
                     body: JSON.stringify({ action, data, id: data.id })
                 });
                 showToast('Perintah Terkirim...');
-                setTimeout(() => syncDataFromCloud(), 2500);
+                setTimeout(() => syncDataFromCloud(), 2000);
             } catch (error) {
                 showToast('Gagal Menghubungi Server');
-            } finally {
                 showLoading(false);
             }
         }
@@ -587,9 +898,221 @@
             });
         }
 
+        function populateChartYears() {
+            const yearSelect = document.getElementById('chart-year-filter');
+            if(!yearSelect) return;
+
+            const currentVal = yearSelect.value || 'ALL';
+            const yearsSet = new Set();
+
+            [...appData.kuitansi, ...appData.arsip].forEach(item => {
+                let d = (item.tanggalFormat || item.tanggal || '');
+                if (d.startsWith("'")) d = d.substring(1);
+                const parts = d.split('-');
+                if(parts.length === 3 && parts[0]) {
+                    yearsSet.add(parts[0]);
+                }
+            });
+
+            const sortedYears = Array.from(yearsSet).sort((a,b) => b - a);
+            yearSelect.innerHTML = '<option value="ALL">Semua Tahun</option>';
+            
+            sortedYears.forEach(yr => {
+                const opt = document.createElement('option');
+                opt.value = yr;
+                opt.textContent = yr;
+                yearSelect.appendChild(opt);
+            });
+
+            if (sortedYears.includes(currentVal) || currentVal === 'ALL') {
+                yearSelect.value = currentVal;
+            } else if (sortedYears.length > 0) {
+                yearSelect.value = sortedYears[0];
+            }
+        }
+
+        function renderExpenditureChart() {
+            const canvas = document.getElementById('expenditureChart');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+
+            if (rect.width === 0 || rect.height === 0) return;
+
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+
+            const width = rect.width;
+            const height = rect.height;
+
+            ctx.clearRect(0, 0, width, height);
+
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"];
+            const monthlyTotals = new Array(12).fill(0);
+
+            const yearFilter = document.getElementById('chart-year-filter')?.value || 'ALL';
+
+            const allData = [...appData.kuitansi, ...appData.arsip];
+
+            allData.forEach(item => {
+                let d = (item.tanggalFormat || item.tanggal || '');
+                if (d.startsWith("'")) d = d.substring(1);
+                const parts = d.split('-');
+                if (parts.length === 3) {
+                    const yr = parts[0];
+                    const mo = parseInt(parts[1], 10) - 1;
+                    if ((yearFilter === 'ALL' || yearFilter === yr) && mo >= 0 && mo < 12) {
+                        monthlyTotals[mo] += Number(item.jumlah || 0);
+                    }
+                }
+            });
+
+            const maxVal = Math.max(...monthlyTotals, 100000);
+            
+            const paddingLeft = 45;
+            const paddingBottom = 35;
+            const paddingTop = 30;
+            const paddingRight = 20;
+
+            const chartW = width - paddingLeft - paddingRight;
+            const chartH = height - paddingTop - paddingBottom;
+
+            // Draw Y-Axis Horizontal Gridlines
+            const gridCount = 4;
+            ctx.strokeStyle = "rgba(255, 105, 180, 0.2)";
+            ctx.lineWidth = 1;
+            ctx.fillStyle = "#A8005E";
+            ctx.font = "bold 9px 'Plus Jakarta Sans'";
+            ctx.textAlign = "right";
+
+            for (let i = 0; i <= gridCount; i++) {
+                const yVal = (maxVal / gridCount) * i;
+                const yPos = height - paddingBottom - (chartH / gridCount) * i;
+
+                ctx.beginPath();
+                ctx.moveTo(paddingLeft, yPos);
+                ctx.lineTo(width - paddingRight, yPos);
+                ctx.stroke();
+
+                let labelText = yVal >= 1000000 ? (yVal / 1000000).toFixed(1) + 'M' : (yVal / 1000).toFixed(0) + 'K';
+                if(yVal === 0) labelText = '0';
+                ctx.fillText(labelText, paddingLeft - 6, yPos + 3);
+            }
+
+            // Draw 3D Monthly Bars
+            const barWidth = Math.max(12, Math.min(28, (chartW / 12) - 8));
+            const stepX = chartW / 12;
+
+            let peakMonthIndex = -1;
+            let peakMonthVal = -1;
+
+            monthlyTotals.forEach((val, index) => {
+                if (val > peakMonthVal && val > 0) {
+                    peakMonthVal = val;
+                    peakMonthIndex = index;
+                }
+
+                const xCenter = paddingLeft + (index * stepX) + (stepX / 2);
+                const xBar = xCenter - (barWidth / 2);
+
+                const barH = (val / maxVal) * chartH;
+                const yBar = height - paddingBottom - barH;
+
+                // Bar Shadow & Base 3D
+                if (val > 0) {
+                    const gradient = ctx.createLinearGradient(0, yBar, 0, height - paddingBottom);
+                    gradient.addColorStop(0, '#FF1493');
+                    gradient.addColorStop(1, '#C71585');
+
+                    ctx.fillStyle = gradient;
+                    
+                    // Rounded Top Bar
+                    const radius = Math.min(6, barWidth / 2);
+                    ctx.beginPath();
+                    ctx.moveTo(xBar, height - paddingBottom);
+                    ctx.lineTo(xBar, yBar + radius);
+                    ctx.quadraticCurveTo(xBar, yBar, xBar + radius, yBar);
+                    ctx.lineTo(xBar + barWidth - radius, yBar);
+                    ctx.quadraticCurveTo(xBar + barWidth, yBar, xBar + barWidth, yBar + radius);
+                    ctx.lineTo(xBar + barWidth, height - paddingBottom);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    // Bar Top Highlight (Glossy 3D Look)
+                    ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+                    ctx.beginPath();
+                    ctx.rect(xBar + 2, yBar + 2, barWidth - 4, Math.min(6, barH));
+                    ctx.fill();
+                } else {
+                    // Empty month bar placeholder
+                    ctx.fillStyle = "rgba(255, 182, 193, 0.25)";
+                    ctx.beginPath();
+                    ctx.rect(xBar, height - paddingBottom - 4, barWidth, 4);
+                    ctx.fill();
+                }
+
+                // Month Labels on X-Axis
+                ctx.fillStyle = "#8B0042";
+                ctx.font = "bold 10px 'Plus Jakarta Sans'";
+                ctx.textAlign = "center";
+                ctx.fillText(monthNames[index], xCenter, height - paddingBottom + 16);
+            });
+
+            // Trend Line across tops
+            ctx.beginPath();
+            ctx.strokeStyle = "#FF69B4";
+            ctx.lineWidth = 2.5;
+            ctx.setLineDash([3, 3]);
+
+            monthlyTotals.forEach((val, index) => {
+                const xCenter = paddingLeft + (index * stepX) + (stepX / 2);
+                const barH = (val / maxVal) * chartH;
+                const yBar = height - paddingBottom - barH;
+
+                if (index === 0) ctx.moveTo(xCenter, yBar);
+                else ctx.lineTo(xCenter, yBar);
+            });
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Draw Data Dots on Trend line
+            monthlyTotals.forEach((val, index) => {
+                if (val > 0) {
+                    const xCenter = paddingLeft + (index * stepX) + (stepX / 2);
+                    const barH = (val / maxVal) * chartH;
+                    const yBar = height - paddingBottom - barH;
+
+                    ctx.fillStyle = "#FFFFFF";
+                    ctx.strokeStyle = "#C71585";
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(xCenter, yBar, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                }
+            });
+
+            // Update Peak Info Text Legend
+            const peakInfoEl = document.getElementById('chart-peak-info');
+            if (peakInfoEl) {
+                if (peakMonthIndex >= 0) {
+                    const monthFull = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+                    peakInfoEl.innerHTML = `Puncak Pengeluaran: <strong class="text-pink-950 font-bold">${monthFull[peakMonthIndex]}</strong> (Rp ${peakMonthVal.toLocaleString('id-ID')})`;
+                } else {
+                    peakInfoEl.innerText = 'Belum ada data pengeluaran terdeteksi.';
+                }
+            }
+        }
+
         function renderLaporan() {
             const tbody = document.getElementById('laporan-body');
-            const searchVal = document.getElementById('bku_search').value.toLowerCase();
+            const searchVal = document.getElementById('bku_search') ? document.getElementById('bku_search').value.toLowerCase() : '';
+            const pageSizeSelect = document.getElementById('pageSizeLaporan');
+            const pageSize = parseInt(pageSizeSelect ? pageSizeSelect.value : 10);
+            
             if(!tbody) return;
             tbody.innerHTML = '';
             
@@ -598,10 +1121,22 @@
                 filtered = appData.kuitansi.filter(k => (k.bku || '').toLowerCase().includes(searchVal));
             }
 
+            const totalItems = filtered.length;
+            const totalPages = Math.ceil(totalItems / pageSize) || 1;
+            
+            if (currentPageLaporan > totalPages) currentPageLaporan = totalPages;
+            if (currentPageLaporan < 1) currentPageLaporan = 1;
+
+            const startIndex = (currentPageLaporan - 1) * pageSize;
+            const endIndex = Math.min(startIndex + pageSize, totalItems);
+
             if (filtered && filtered.length > 0) {
-                [...filtered].sort((a,b) => b.id - a.id).forEach(item => {
+                const sorted = [...filtered].sort((a,b) => a.id - b.id);
+                const pageItems = sorted.slice(startIndex, endIndex);
+
+                pageItems.forEach(item => {
                     const tr = document.createElement('tr');
-                    tr.className = "hover:bg-gray-50 transition";
+                    tr.className = "hover:bg-pink-50/50 transition border-b border-pink-100";
                     
                     let displayDate = (item.tanggalFormat || item.tanggal || "");
                     if (displayDate.startsWith("'")) displayDate = displayDate.substring(1);
@@ -609,20 +1144,28 @@
                     const tglTampil = formatDateIndo(displayDate);
                     
                     tr.innerHTML = `
-                        <td class="px-6 py-4 font-bold text-blue-900">${item.bku || '-'}</td>
-                        <td class="px-6 py-4 text-sm">${tglTampil}</td>
-                        <td class="px-6 py-4 text-sm">${item.penerima || '-'}</td>
-                        <td class="px-6 py-4 font-bold">Rp ${Number(item.jumlah || 0).toLocaleString('id-ID')}</td>
+                        <td class="px-6 py-4 font-bold text-pink-900">${item.bku || '-'}</td>
+                        <td class="px-6 py-4 text-sm font-semibold">${tglTampil}</td>
+                        <td class="px-6 py-4 text-sm font-semibold">${item.penerima || '-'}</td>
+                        <td class="px-6 py-4 font-extrabold text-pink-950">Rp ${Number(item.jumlah || 0).toLocaleString('id-ID')}</td>
                         <td class="px-6 py-4 text-center space-x-1 whitespace-nowrap">
-                            <button onclick="handlePDF(${item.id}, 'view')" class="bg-blue-600 text-white px-2 py-1 rounded text-[10px] uppercase font-bold hover:bg-blue-700">Lihat</button>
-                            <button onclick="handlePDF(${item.id}, 'download')" class="bg-green-600 text-white px-2 py-1 rounded text-[10px] uppercase font-bold hover:bg-green-700">PDF</button>
-                            <button onclick="deleteKuitansi(${item.id})" class="bg-red-500 text-white px-2 py-1 rounded text-[10px] uppercase font-bold hover:bg-red-600">Hapus</button>
+                            <button onclick="handlePDF(${item.id}, 'view')" class="btn-3d-pink px-2.5 py-1.5 rounded-lg text-[10px] uppercase font-extrabold">Lihat</button>
+                            <button onclick="handlePDF(${item.id}, 'download')" class="btn-3d-green px-2.5 py-1.5 rounded-lg text-[10px] uppercase font-extrabold">PDF</button>
+                            <button onclick="deleteKuitansi(${item.id})" class="btn-3d-red px-2.5 py-1.5 rounded-lg text-[10px] uppercase font-extrabold">Hapus</button>
                         </td>
                     `;
                     tbody.appendChild(tr);
                 });
+
+                document.getElementById('laporan-page-info').innerText = `Menampilkan ${totalItems > 0 ? startIndex + 1 : 0}-${endIndex} dari ${totalItems} data`;
+                renderPagination('laporan-pagination', totalPages, currentPageLaporan, (newPage) => {
+                    currentPageLaporan = newPage;
+                    renderLaporan();
+                });
             } else {
-                tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-10 text-center text-gray-400 italic">${searchVal ? 'BKU tidak ditemukan' : 'Database Cloud Kosong'}</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-10 text-center text-pink-400 italic">${searchVal ? 'BKU tidak ditemukan' : 'Database Cloud Kosong'}</td></tr>`;
+                document.getElementById('laporan-page-info').innerText = 'Menampilkan 0-0 dari 0 data';
+                document.getElementById('laporan-pagination').innerHTML = '';
             }
         }
 
@@ -633,12 +1176,14 @@
 
             const searchVal = document.getElementById('bku_arsip_search') ? document.getElementById('bku_arsip_search').value.toLowerCase() : '';
             const selectFilter = document.getElementById('arsip_tahun_filter');
+            const pageSizeSelect = document.getElementById('pageSizeArsip');
+            const pageSize = parseInt(pageSizeSelect ? pageSizeSelect.value : 10);
+            
             let activeYear = 'Semua';
 
             if(selectFilter) {
                 const currentSelected = selectFilter.value || 'Semua';
 
-                // Ekstrak tahun unik dari arsip
                 const years = new Set();
                 appData.arsip.forEach(item => {
                     let dateStr = (item.tanggalFormat || item.tanggal || "");
@@ -649,7 +1194,6 @@
                     }
                 });
 
-                // Buat ulang pilihan Tahun
                 selectFilter.innerHTML = '<option value="Semua">Semua Tahun</option>';
                 Array.from(years).sort((a, b) => b - a).forEach(yr => {
                     const opt = document.createElement('option');
@@ -681,10 +1225,22 @@
                 });
             }
 
+            const totalItems = filtered.length;
+            const totalPages = Math.ceil(totalItems / pageSize) || 1;
+
+            if (currentPageArsip > totalPages) currentPageArsip = totalPages;
+            if (currentPageArsip < 1) currentPageArsip = 1;
+
+            const startIndex = (currentPageArsip - 1) * pageSize;
+            const endIndex = Math.min(startIndex + pageSize, totalItems);
+
             if (filtered && filtered.length > 0) {
-                [...filtered].sort((a,b) => b.id - a.id).forEach(item => {
+                const sorted = [...filtered].sort((a,b) => a.id - b.id);
+                const pageItems = sorted.slice(startIndex, endIndex);
+
+                pageItems.forEach(item => {
                     const tr = document.createElement('tr');
-                    tr.className = "hover:bg-gray-50 transition";
+                    tr.className = "hover:bg-pink-50/50 transition border-b border-pink-100";
                     
                     let displayDate = (item.tanggalFormat || item.tanggal || "");
                     if (displayDate.startsWith("'")) displayDate = displayDate.substring(1);
@@ -692,28 +1248,104 @@
                     const tglTampil = formatDateIndo(displayDate);
                     
                     tr.innerHTML = `
-                        <td class="px-6 py-4 font-bold text-blue-900">${item.bku || '-'}</td>
-                        <td class="px-6 py-4 text-sm">${tglTampil}</td>
-                        <td class="px-6 py-4 text-sm">${item.penerima || '-'}</td>
-                        <td class="px-6 py-4 font-bold">Rp ${Number(item.jumlah || 0).toLocaleString('id-ID')}</td>
+                        <td class="px-6 py-4 font-bold text-pink-900">${item.bku || '-'}</td>
+                        <td class="px-6 py-4 text-sm font-semibold">${tglTampil}</td>
+                        <td class="px-6 py-4 text-sm font-semibold">${item.penerima || '-'}</td>
+                        <td class="px-6 py-4 font-extrabold text-pink-950">Rp ${Number(item.jumlah || 0).toLocaleString('id-ID')}</td>
                         <td class="px-6 py-4 text-center space-x-1 whitespace-nowrap">
-                            <button onclick="handlePDF(${item.id}, 'view')" class="bg-blue-600 text-white px-2 py-1 rounded text-[10px] uppercase font-bold hover:bg-blue-700">Lihat</button>
-                            <button onclick="handlePDF(${item.id}, 'download')" class="bg-green-600 text-white px-2 py-1 rounded text-[10px] uppercase font-bold hover:bg-green-700">PDF</button>
+                            <button onclick="handlePDF(${item.id}, 'view')" class="btn-3d-pink px-2.5 py-1.5 rounded-lg text-[10px] uppercase font-extrabold">Lihat</button>
+                            <button onclick="handlePDF(${item.id}, 'download')" class="btn-3d-green px-2.5 py-1.5 rounded-lg text-[10px] uppercase font-extrabold">PDF</button>
                         </td>
                     `;
                     tbody.appendChild(tr);
                 });
+
+                document.getElementById('arsip-page-info').innerText = `Menampilkan ${totalItems > 0 ? startIndex + 1 : 0}-${endIndex} dari ${totalItems} data`;
+                renderPagination('arsip-pagination', totalPages, currentPageArsip, (newPage) => {
+                    currentPageArsip = newPage;
+                    renderArsip();
+                });
             } else {
-                tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-10 text-center text-gray-400 italic">Data Arsip Tidak Ditemukan</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-10 text-center text-pink-400 italic">Data Arsip Tidak Ditemukan</td></tr>';
+                document.getElementById('arsip-page-info').innerText = 'Menampilkan 0-0 dari 0 data';
+                document.getElementById('arsip-pagination').innerHTML = '';
             }
+        }
+
+        function renderPagination(containerId, totalPages, currentPage, onPageClick) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (totalPages <= 1) return;
+
+            const prevBtn = document.createElement('button');
+            prevBtn.className = `px-3 py-1.5 rounded-xl text-xs font-bold transition ${currentPage === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'btn-3d-pink text-white'}`;
+            prevBtn.innerText = '‹ Prev';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => onPageClick(currentPage - 1);
+            container.appendChild(prevBtn);
+
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, currentPage + 2);
+
+            if (startPage > 1) {
+                const p1 = createPageBtn(1, currentPage, onPageClick);
+                container.appendChild(p1);
+                if (startPage > 2) {
+                    const dots = document.createElement('span');
+                    dots.className = 'px-1 text-xs font-bold text-pink-400';
+                    dots.innerText = '...';
+                    container.appendChild(dots);
+                }
+            }
+
+            for (let p = startPage; p <= endPage; p++) {
+                const btn = createPageBtn(p, currentPage, onPageClick);
+                container.appendChild(btn);
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    const dots = document.createElement('span');
+                    dots.className = 'px-1 text-xs font-bold text-pink-400';
+                    dots.innerText = '...';
+                    container.appendChild(dots);
+                }
+                const pN = createPageBtn(totalPages, currentPage, onPageClick);
+                container.appendChild(pN);
+            }
+
+            const nextBtn = document.createElement('button');
+            nextBtn.className = `px-3 py-1.5 rounded-xl text-xs font-bold transition ${currentPage === totalPages ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'btn-3d-pink text-white'}`;
+            nextBtn.innerText = 'Next ›';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => onPageClick(currentPage + 1);
+            container.appendChild(nextBtn);
+        }
+
+        function createPageBtn(page, currentPage, onPageClick) {
+            const btn = document.createElement('button');
+            if (page === currentPage) {
+                btn.className = 'px-3 py-1.5 rounded-xl text-xs font-extrabold bg-[#8B0042] text-white shadow-md border border-pink-300';
+            } else {
+                btn.className = 'px-3 py-1.5 rounded-xl text-xs font-bold bg-pink-100 hover:bg-pink-200 text-pink-950 transition';
+            }
+            btn.innerText = page;
+            btn.onclick = () => onPageClick(page);
+            return btn;
         }
 
         function showPage(pageId) {
             document.querySelectorAll('section').forEach(p => p.classList.add('hidden'));
             document.getElementById('page-' + pageId).classList.remove('hidden');
-            document.querySelectorAll('aside button').forEach(b => b.classList.remove('sidebar-active'));
-            document.getElementById('nav-' + pageId).classList.add('sidebar-active');
+            document.querySelectorAll('aside button').forEach(b => b.classList.remove('sidebar-active-3d'));
+            document.getElementById('nav-' + pageId).classList.add('sidebar-active-3d');
             document.getElementById('page-title').innerText = pageId.replace('-', ' ').toUpperCase();
+
+            if (pageId === 'beranda') {
+                setTimeout(() => renderExpenditureChart(), 50);
+            }
         }
 
         async function savePJ() {
@@ -851,9 +1483,12 @@
             setTimeout(() => t.classList.add('opacity-0'), 3000);
         }
 
-        function logout() {
-            localStorage.setItem('bos_cloud_isLoggedIn', 'false');
-            location.reload();
+        async function logout() {
+            const confirmed = await customConfirm('Apakah Anda yakin ingin keluar dari sistem?', 'Konfirmasi Keluar', '🚪');
+            if (confirmed) {
+                localStorage.setItem('bos_cloud_isLoggedIn', 'false');
+                location.reload();
+            }
         }
 
         function getImageFromUrl(url) {
@@ -863,7 +1498,7 @@
                 const timer = setTimeout(() => {
                     img.src = "";
                     reject(new Error("Gagal memuat: " + url));
-                }, 10000); 
+                }, 8000); 
                 img.onload = () => { clearTimeout(timer); resolve(img); };
                 img.onerror = () => { clearTimeout(timer); reject(new Error("Gagal: " + url)); };
                 img.src = url;
@@ -928,7 +1563,7 @@
                 
                 doc.setTextColor(0, 0, 255); 
                 doc.setFontSize(10).setFont('times', 'italic');
-                doc.text('Jalan Pasar Baru - Asam Kumbang, Email :  lubukgambirs@gmail.com, Kode Pos : 25652', centerX, mTop + 26, { align: 'center' });
+                doc.text('Jalan Pasar Baru - Asam Kumbang, Email : lubukgambirs@gmail.com, Kode Pos : 25652', centerX, mTop + 26, { align: 'center' });
                 
                 doc.setTextColor(0, 0, 0);
                 doc.setLineWidth(0.8).line(mLeft - 5, mTop + 29, pageWidth - mRight + 5, mTop + 29);
@@ -1041,11 +1676,8 @@
             }
         }
 
-        /**
-         * Mengunduh Seluruh Kuitansi Terfilter ke dalam satu berkas PDF multi-halaman
-         */
         async function downloadAllPDF() {
-            const searchVal = document.getElementById('bku_search').value.toLowerCase();
+            const searchVal = document.getElementById('bku_search') ? document.getElementById('bku_search').value.toLowerCase() : '';
             let filtered = appData.kuitansi;
             if(searchVal) {
                 filtered = appData.kuitansi.filter(k => (k.bku || '').toLowerCase().includes(searchVal));
@@ -1103,13 +1735,13 @@
 
                     doc.setFont('times', 'bold');
                     doc.setFontSize(14).text('PEMERINTAH KABUPATEN PESISIR SELATAN', centerX, mTop + 3, { align: 'center' });
-                    doc.text('DINAS PENDIDIKAN DAN KEBUDAYAAN', centerX, mTop + 9, { align: 'center' });
-                    doc.setFontSize(15).text('UPT SDN 37 LUBUK GAMBIR', centerX, mTop + 15, { align: 'center' });
+                    doc.text('DINAS PENDIDIKAN', centerX, mTop + 9, { align: 'center' });
+                    doc.setFontSize(15).text('SDN 37 LUBUK GAMBIR', centerX, mTop + 15, { align: 'center' });
                     doc.text('KECAMATAN BAYANG', centerX, mTop + 21, { align: 'center' });
                     
                     doc.setTextColor(0, 0, 255); 
                     doc.setFontSize(10).setFont('times', 'italic');
-                    doc.text('Lubuk Gambir, kapeh Panji jaya, Email : 23apajaya@gmail.com', centerX, mTop + 26, { align: 'center' });
+                    doc.text('Jalan Pasar Baru - Asam Kumbang, Email : lubukgambirs@gmail.com, Kode Pos : 25652', centerX, mTop + 26, { align: 'center' });
                     
                     doc.setTextColor(0, 0, 0);
                     doc.setLineWidth(0.8).line(mLeft - 5, mTop + 29, pageWidth - mRight + 5, mTop + 29);
